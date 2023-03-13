@@ -59,10 +59,10 @@ static int cmd_si(char *args) {
   return 0;
 }
 
-static int cmd_info(char *args) {
+static int cmd_info(char *args) {//打印寄存器
   if(args[0]=='r')//registers
   {
-    printf("-----cpu state------\n");
+    printf("-----32bit regs------\n");
     printf("eax : %x \n",cpu.eax);
     printf("ecx : %x \n",cpu.ecx);
     printf("edx : %x \n",cpu.edx);
@@ -72,6 +72,17 @@ static int cmd_info(char *args) {
     printf("esi : %x \n",cpu.esi);
     printf("edi : %x \n",cpu.edi);
     printf("eip : %x \n",cpu.eip);
+    printf("-----16bit regs-----\n");
+    for(int i=0;i<8;i++)
+    {
+      printf("%s : %x \n",regsw[i],reg_w(i));
+    }
+    printf("-----8bit regs-----\n");
+    for(int i=0;i<8;i++)
+    {
+      printf("%s : %x \n",regsb[i],reg_b(i));
+    }
+
   }
   else if(args[0]=='w')//monitors
   {
@@ -79,6 +90,22 @@ static int cmd_info(char *args) {
     //return 0;
   }
   return 0;
+}
+
+static int cmd_p(char * args) {//表达式求值
+
+}
+
+static int cmd_x(char * args) {//扫描内存
+
+}
+
+static int cmd_w(char * args) {//设置监视点
+
+}
+
+static int cmd_d(char * args) {//删除监视点
+
 }
 
 static struct {
@@ -92,7 +119,11 @@ static struct {
 
   /* TODO: Add more commands */
   {"si","Continue several executions next of the program",cmd_si },
-  {"info","print information of regs or moniors",cmd_info }
+  {"info","print information of regs or moniors",cmd_info },
+  {"p","calculate the results of exprs",cmd_p},
+  {"x","scan the memory",cmd_x},
+  {"w","set a monitor",cmd_w},
+  {"d","delete a monitor",cmd_d}
 
 };
 
