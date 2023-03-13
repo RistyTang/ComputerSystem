@@ -94,6 +94,8 @@ static int cmd_info(char *args) {//打印寄存器
 
 static int cmd_p(char * args) {//表达式求值
 
+
+  return 0;
 }
 
 static int cmd_x(char * args) {//扫描内存
