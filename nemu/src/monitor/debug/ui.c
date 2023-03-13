@@ -99,15 +99,24 @@ static int cmd_p(char * args) {//表达式求值
 }
 
 static int cmd_x(char * args) {//扫描内存
-
+  //x N expr
+  if(args==NULL)
+  {
+    printf("缺少起始内存地址以及打印数字\n");
+    return 1;
+  }
+  
+  return 0;
 }
 
 static int cmd_w(char * args) {//设置监视点
 
+  return 0;
 }
 
 static int cmd_d(char * args) {//删除监视点
 
+  return 0;
 }
 
 static struct {
