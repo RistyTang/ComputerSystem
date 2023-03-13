@@ -76,7 +76,9 @@ static int cmd_info(char *args) {
   else if(args[0]=='w')//monitors
   {
 
+    //return 0;
   }
+  return 0;
 }
 
 static struct {
