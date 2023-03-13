@@ -27,6 +27,7 @@ char* rl_gets() {
   return line_read;
 }
 
+//here 调用cpuexec
 static int cmd_c(char *args) {
   cpu_exec(-1);
   return 0;
@@ -38,6 +39,41 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+//新增调试器实现，cmd_si继续执行一些指令
+static int cmd_si(char *args) {
+  int steps;//继续执行的步数
+  if(args==NULL)
+  {
+    steps=1;
+  }
+  else
+  {
+    sscanf(args,"%d",&steps);
+  }
+  cpu_exec(steps);
+  return 0;
+}
+
+static int cmd_info(char *args) {
+  if(args[0]=='r')//registers
+  {
+    printf("-----cpu state------\n");
+    printf("eax : %x \n",cpu.eax);
+    printf("ecx : %x \n",cpu.ecx);
+    printf("edx : %x \n",cpu.edx);
+    printf("ebx : %x \n",cpu.ebx);
+    printf("esp : %x \n",cpu.esp);
+    printf("ebp : %x \n",cpu.ebp);
+    printf("esi : %x \n",cpu.esi);
+    printf("edi : %x \n",cpu.edi);
+    printf("eip : %x \n",cpu.eip);
+  }
+  else if(args[0]=='w')//monitors
+  {
+
+  }
+}
+
 static struct {
   char *name;
   char *description;
@@ -48,6 +84,8 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
+  {"si","Continue several executions next of the program",cmd_si },
+  {"info","print information of regs or moniors",cmd_info }
 
 };
 

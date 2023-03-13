@@ -71,7 +71,7 @@ make_group(gp7,
 
 /* TODO: Add more instructions!!! */
 
-opcode_entry opcode_table [512] = {
+opcode_entry opcode_table [512] = {//代码框架中实现的指令，empty为未实现
   /* 0x00 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x04 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x08 */	EMPTY, EMPTY, EMPTY, EMPTY,
