@@ -91,13 +91,13 @@ static int cmd_info(char *args) {//打印寄存器
   }
   return 0;
 }
-
+/*
 static int cmd_p(char * args) {//表达式求值
 
 
   return 0;
 }
-
+*/
 static int cmd_x(char * args) {//扫描内存
   //x N expr
   if(args==NULL)
@@ -105,10 +105,34 @@ static int cmd_x(char * args) {//扫描内存
     printf("缺少起始内存地址以及打印数字\n");
     return 1;
   }
-  
+  //分割N和expr
+  char* n=strtok(args," ");
+  char* expr=strtok(NULL," ");
+  return 0;
+  if(n==NULL||expr==NULL)
+  {
+    printf("缺少起始内存地址或打印数字\n");
+    return 1;
+  }
+  int N = atoi(n);
+  char * stop;
+  vaddr_t EXPR=strtol(expr,&stop,16);
+  printf("memory :\n");
+  for(int i=0;i<N;i++)
+  {
+    if(i%4==0)
+    {
+      printf("0x%x:   0x%02x\n",EXPR+i,vaddr_read(EXPR+i,1));
+    }
+    else
+    {
+      printf("  0x%02x\n",vaddr_read(EXPR+i,1));
+    }
+    
+  }
   return 0;
 }
-
+/*
 static int cmd_w(char * args) {//设置监视点
 
   return 0;
@@ -118,7 +142,7 @@ static int cmd_d(char * args) {//删除监视点
 
   return 0;
 }
-
+*/
 static struct {
   char *name;
   char *description;
@@ -131,10 +155,10 @@ static struct {
   /* TODO: Add more commands */
   {"si","Continue several executions next of the program",cmd_si },
   {"info","print information of regs or moniors",cmd_info },
-  {"p","calculate the results of exprs",cmd_p},
+  //{"p","calculate the results of exprs",cmd_p},
   {"x","scan the memory",cmd_x},
-  {"w","set a monitor",cmd_w},
-  {"d","delete a monitor",cmd_d}
+  //{"w","set a monitor",cmd_w},
+  //{"d","delete a monitor",cmd_d}
 
 };
 
