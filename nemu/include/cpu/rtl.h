@@ -18,7 +18,9 @@ static inline void rtl_li(rtlreg_t* dest, uint32_t imm) {
 #define c_or(a, b)  ((a) | (b))
 #define c_xor(a, b) ((a) ^ (b))
 #define c_shl(a, b) ((a) << (b))
+//shr无符号数
 #define c_shr(a, b) ((a) >> (b))
+//sar是算数右移，a为有符号数
 #define c_sar(a, b) ((int32_t)(a) >> (b))
 #define c_slt(a, b) ((int32_t)(a) < (int32_t)(b))
 #define c_sltu(a, b) ((a) < (b))
@@ -110,7 +112,7 @@ static inline void rtl_sr(int r, int width, const rtlreg_t* src1) {
     default: assert(0);
   }
 }
-
+//设置eflag
 #define make_rtl_setget_eflags(f) \
   static inline void concat(rtl_set_, f) (const rtlreg_t* src) { \
     TODO(); \

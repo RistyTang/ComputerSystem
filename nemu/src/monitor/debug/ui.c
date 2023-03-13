@@ -50,6 +50,11 @@ static int cmd_si(char *args) {
   {
     sscanf(args,"%d",&steps);
   }
+  if(steps<=0)
+  {
+    printf("wrong input,check your steps\n");
+    return 1;//区分开
+  }
   cpu_exec(steps);
   return 0;
 }
