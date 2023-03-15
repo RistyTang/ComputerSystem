@@ -91,13 +91,21 @@ static int cmd_info(char *args) {//打印寄存器
   }
   return 0;
 }
-/*
-static int cmd_p(char * args) {//表达式求值
 
+static int cmd_p(char * args) 
+{//表达式求值
+  bool flags;
+  int temp=expr(args,&flags);
 
+  if(!flags)
+  {
+    printf("can't calculate the expr\n");
+    return 1;
+  }
+  printf("the result is %d\n",temp);
   return 0;
 }
-*/
+
 static int cmd_x(char * args) {//扫描内存
   //x N expr
   if(args==NULL)
@@ -156,7 +164,7 @@ static struct {
   /* TODO: Add more commands */
   {"si","Continue several executions next of the program",cmd_si },
   {"info","print information of regs or moniors",cmd_info },
-  //{"p","calculate the results of exprs",cmd_p},
+  {"p","calculate the results of exprs",cmd_p},
   {"x","scan the memory",cmd_x},
   //{"w","set a monitor",cmd_w},
   //{"d","delete a monitor",cmd_d}

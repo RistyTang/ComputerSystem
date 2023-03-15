@@ -130,22 +130,7 @@ static bool make_token(char *e) {
 
   return true;
 }
-
-uint32_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
-    *success = false;
-    return 0;
-  }
-
-  /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
-
-
-  return 0;
-}
-
-
-bool check_parenthesis(int p,int q) 
+bool check_parentheses(int p,int q) 
 { //根据指导手册，表达式必须被一对匹配的括号包括在内
   if(p>=q)//wrong input0
   {
@@ -170,7 +155,7 @@ bool check_parenthesis(int p,int q)
     {
       rightcnt+=1;
     }
-    if(leftcnt==rightcnt)
+    if(leftcnt==rightcnt)//wrong input 3
     {
       printf("the left most ( does not match the right most ) \n");
       return false;
@@ -184,4 +169,135 @@ bool check_parenthesis(int p,int q)
     return false;
   }
   return true;
+}
+
+int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运算符
+{
+  //此表达式一定不是（expr)形式
+  int level=0;//辨别括号优先级
+  //表达式优先级：非4 负3 乘除2 加减1
+  int dominant_operator=100;//记录选中的运算符是什么
+  int revalue=p-1;//返回的是选中的token下标
+  for(int i=p;i<=q;i++)
+  {
+    if(tokens[i].type=='(')
+    {
+      level+=1;
+    }
+    else if(tokens[i].type==')')
+    {
+      level-=1;
+    }
+    if(level!=0)//凡是括号内内容都不考虑，
+    {
+      continue;
+    }
+    //乘除法
+    if(((tokens[i].type=='*')||(tokens[i].type=='/'))&&(dominant_operator>=2))
+    {
+      dominant_operator=2;
+      revalue=i;
+    }
+    //加减法
+    if(((tokens[i].type=='+')||(tokens[i].type=='-'))&&(dominant_operator>=1))
+    {
+      dominant_operator=1;
+      revalue=i;
+    }
+  }
+  if(revalue==p-1)
+  {
+    printf("can't find a legal operator\n");
+    return 0;
+  }
+  return revalue;
+}
+
+uint32_t eval(int p,int q)
+{
+  if(p>q)
+  {
+    printf("wrong expression in eval\n");
+    assert(0);
+  }
+  else if(p==q)//number
+  {
+    int revalue;
+    switch (tokens[p].type)
+    {
+    case TK_DECIMIAL://10
+      sscanf(tokens[p].str,"%d",&revalue);
+      return revalue;
+    case TK_HEX://16
+      sscanf(tokens[p].str,"%x",&revalue);
+      return revalue;
+    case TK_OCTAL://8
+      sscanf(tokens[p].str,"%o",&revalue);
+      return revalue;
+    case TK_REG://registers
+      for(int i=0;i<8;i++)
+      {
+        if(strcmp(tokens[p].str,regsl[i])==0)
+        {
+          return reg_l(i);
+        }
+        if(strcmp(tokens[p].str,regsw[i])==0)
+        {
+          return reg_w(i);
+        }
+        if(strcmp(tokens[p].str,regsb[i])==0)
+        {
+          return reg_b(i);
+        }
+        if(strcmp(tokens[p].str,"eip")==0)
+        {
+          return cpu.eip;
+        }
+        printf("no matched regs\n");
+        assert(0);
+      }
+    default:
+      break;
+    }
+  }
+  else if(check_parentheses(p,q)==true)
+  {
+    return eval(p+1,q-1);//去除括号
+  }
+  else
+  {
+    int op=find_dominant_oprator(p,q);
+    uint32_t val1=eval(p,op-1);
+    uint32_t val2=eval(op+1,q);
+    switch (tokens[op].type)
+    {
+    case '+':
+      return val1 + val2;
+    case '-':
+      return val1 - val2;
+    case '*':
+      return val1 * val2;
+    case '/':
+      return val1 / val2;
+    
+    default:
+      printf("no matched operator\n");
+      assert(0);
+    }
+
+  }
+  return -1;
+}
+
+uint32_t expr(char *e, bool *success) {
+  if (!make_token(e)) {
+    *success = false;
+    return 0;
+  }
+
+  /* TODO: Insert codes to evaluate the expression. */
+  //TODO();
+
+
+  return eval(0,nr_token-1);
 }
