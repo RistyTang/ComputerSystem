@@ -122,11 +122,11 @@ static int cmd_x(char * args) {//扫描内存
   {
     if(i%4==0)
     {
-      printf("0x%x:   0x%02x\n",EXPR+i,vaddr_read(EXPR+i,1));
+      printf("\n0x%x:   0x%02x",EXPR+i,vaddr_read(EXPR+i,1));
     }
     else
     {
-      printf("  0x%02x\n",vaddr_read(EXPR+i,1));
+      printf("  0x%02x",vaddr_read(EXPR+i,1));
     }
     
   }
