@@ -130,6 +130,7 @@ static int cmd_x(char * args) {//扫描内存
     }
     
   }
+  printf("\n");
   return 0;
 }
 /*
