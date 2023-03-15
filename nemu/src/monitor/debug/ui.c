@@ -108,7 +108,7 @@ static int cmd_x(char * args) {//扫描内存
   //分割N和expr
   char* n=strtok(args," ");
   char* expr=strtok(NULL," ");
-  return 0;
+  //return 0;
   if(n==NULL||expr==NULL)
   {
     printf("缺少起始内存地址或打印数字\n");
