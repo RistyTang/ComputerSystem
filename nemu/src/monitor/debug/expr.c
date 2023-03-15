@@ -7,9 +7,11 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ
+  TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
+  TK_HEX,TK_OCTAL,TK_DECIMIAL,
+  TK_NEQ,TK_REG
 
 };
 
@@ -24,7 +26,18 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"==", TK_EQ}         // equal
+  {"==", TK_EQ},         // equal
+  {"!=", TK_NEQ},        // not equal
+  {"0[X|x][0-9A-Fa-f]*",TK_HEX}, //hexadecimial
+  {"0[0-7]*",TK_OCTAL},  //8
+  {"0|[1-9][0-9]*",TK_DECIMIAL}, //10
+  {"\\-", '-'},          // sub
+  {"\\*", '*'},          // mul
+  {"\\/", '/'},          // div
+  {"\\(", '('},          // (
+  {"\\)", ')'},          // )
+  {"\\$(eax|ebx|ecx|edx|esp|ebp|esi|edi|eip|ax|bx|cx|dx|sp|bp|si|di|al|bl|cl|dl|ah|bh|ch|dh", TK_REG}
+
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -50,7 +63,7 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[32];
+  char str[32];//溢出怎么做
 } Token;
 
 Token tokens[32];
@@ -61,7 +74,7 @@ static bool make_token(char *e) {
   int i;
   regmatch_t pmatch;
 
-  nr_token = 0;
+  nr_token = 0;//第几个token
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
@@ -78,16 +91,39 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
-        switch (rules[i].token_type) {
-          default: TODO();
+        //记录到token数组中
+        const char * endzero='\0';
+        switch (rules[i].token_type) 
+        {
+          case TK_DECIMIAL://10
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            strcat(tokens[nr_token].str,endzero);//末尾添加\0
+            break;
+          case TK_HEX://16
+            strncpy(tokens[nr_token].str,substr_start+2,substr_len-2);//去除0x
+            strcat(tokens[nr_token].str,endzero);
+            break;
+          case TK_OCTAL://8
+            strncpy(tokens[nr_token].str,substr_start+1,substr_len-1);//去除0
+            strcat(tokens[nr_token].str,endzero);
+            break;
+          case TK_REG://registers
+            strncpy(tokens[nr_token].str,substr_start+1,substr_len-1);//去除$
+            strcat(tokens[nr_token].str,endzero);
+            break;
+          case  TK_NOTYPE://空格
+            break;
+          default: 
+            //TODO();
+            break;
         }
-
+        printf("nr_token = %d , str = %s , token_type = %d \n",nr_token,tokens[nr_token].str,tokens[nr_token].type);
+        nr_token+=1;//新token
         break;
       }
     }
 
-    if (i == NR_REGEX) {
+    if (i == NR_REGEX) {//无对应token
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
