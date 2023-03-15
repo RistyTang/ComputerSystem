@@ -1,5 +1,4 @@
 #include "nemu.h"
-
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -139,7 +138,50 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  //TODO();
+
 
   return 0;
+}
+
+
+bool check_parenthesis(int p,int q) 
+{ //根据指导手册，表达式必须被一对匹配的括号包括在内
+  if(p>=q)//wrong input0
+  {
+    printf("there's no expression \n");
+    return false;
+  }
+  //wrong input1
+  else if((tokens[p].type!='(')||(tokens[q].type!=')'))
+  {
+    printf("not surrounded by parenthesis \n");
+    return false;
+  }
+  int leftcnt=0;
+  int rightcnt=0;
+  for(int i=p;i<q;i++)
+  {
+    if(tokens[i].type=='(')
+    {
+      leftcnt+=1;
+    }
+    else if(tokens[i].type==')')
+    {
+      rightcnt+=1;
+    }
+    if(leftcnt==rightcnt)
+    {
+      printf("the left most ( does not match the right most ) \n");
+      return false;
+    }
+  }
+  rightcnt+=1;
+  //wrong input 2
+  if(leftcnt!=rightcnt)
+  {
+    printf("bad expression, check if your '('s and ')'s are the same \n");
+    return false;
+  }
+  return true;
 }
