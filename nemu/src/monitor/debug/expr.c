@@ -256,16 +256,22 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
         revalue=i;
       }
     }
-    // &&
-    if((dominant_operator>=12)&&(tokens[i].type==TK_AND))
+    // == !=
+    if((dominant_operator>=12)&&(tokens[i].type==TK_EQ||tokens[i].type==TK_NEQ))
     {
       dominant_operator=12;
       revalue=i;
     }
-    // ||
-    if((dominant_operator>=11)&&(tokens[i].type == TK_OR))
+    // &&
+    if((dominant_operator>=11)&&(tokens[i].type==TK_AND))
     {
       dominant_operator=11;
+      revalue=i;
+    }
+    // ||
+    if((dominant_operator>=10)&&(tokens[i].type == TK_OR))
+    {
+      dominant_operator=10;
       revalue=i;
     }
   }
