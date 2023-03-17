@@ -193,27 +193,27 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
     {
       continue;
     }
-    //printf("here is %s\n",tokens[i].str);
+    printf("here is %s\n",tokens[i].str);
     //乘除法
     if(dominant_operator>=2)
     {
-      if(tokens[i].type=='*'||tokens[i].type=='/')
+      if(tokens[i].type == '*'||tokens[i].type == '/')
       {
         dominant_operator=2;
         revalue=i;
       }
     }
     //加减法
-    if(dominant_operator>=1)
+    if(dominant_operator >= 1)
     {
-      if(tokens[i].type=='+'||tokens[i].type=='-')
+      if(tokens[i].type == '+'||tokens[i].type == '-')
       {
         dominant_operator=1;
         revalue=i;
       }
     }
   }
-  if(revalue==p-1)
+  if(revalue == p-1)
   {
     printf("can't find a legal operator\n");
     assert(0);
