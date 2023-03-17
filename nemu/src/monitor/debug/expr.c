@@ -91,7 +91,6 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         //记录到token数组中
-        //printf("wrong after here\n");
         switch (rules[i].token_type) 
         {
           case TK_DECIMIAL://10
@@ -116,6 +115,7 @@ static bool make_token(char *e) {
             //TODO();
             break;
         }
+        tokens[nr_token].type=rules[i].token_type;
         printf("nr_token = %d , str = %s , token_type = %d \n",nr_token,tokens[nr_token].str,tokens[nr_token].type);
         nr_token+=1;//新token
         break;
