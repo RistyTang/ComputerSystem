@@ -97,18 +97,22 @@ static bool make_token(char *e) {
           case TK_DECIMIAL://10
             strncpy(tokens[nr_token].str,substr_start,substr_len);
             strcat(tokens[nr_token].str,endzero);//末尾添加\0
+            printf("10bit: %s",tokens[nr_token].str);
             break;
           case TK_HEX://16
             strncpy(tokens[nr_token].str,substr_start+2,substr_len-2);//去除0x
             strcat(tokens[nr_token].str,endzero);
+            printf("16bit: %s",tokens[nr_token].str);
             break;
           case TK_OCTAL://8
             strncpy(tokens[nr_token].str,substr_start+1,substr_len-1);//去除0
             strcat(tokens[nr_token].str,endzero);
+            printf("8bit: %s",tokens[nr_token].str);
             break;
           case TK_REG://registers
             strncpy(tokens[nr_token].str,substr_start+1,substr_len-1);//去除$
             strcat(tokens[nr_token].str,endzero);
+            printf("regs: %s",tokens[nr_token].str);
             break;
           case  TK_NOTYPE://空格
             break;
@@ -208,12 +212,14 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
   if(revalue==p-1)
   {
     printf("can't find a legal operator\n");
+    assert(0);
     return 0;
   }
+  printf("dominant operator is %s",tokens[revalue].str);
   return revalue;
 }
 
-uint32_t eval(int p,int q)
+int eval(int p,int q)
 {
   if(p>q)
   {
@@ -267,8 +273,8 @@ uint32_t eval(int p,int q)
   else
   {
     int op=find_dominant_oprator(p,q);
-    uint32_t val1=eval(p,op-1);
-    uint32_t val2=eval(op+1,q);
+    int val1=eval(p,op-1);
+    int val2=eval(op+1,q);
     switch (tokens[op].type)
     {
     case '+':
@@ -298,6 +304,6 @@ uint32_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
 
-
+  *success=true;
   return eval(0,nr_token-1);
 }
