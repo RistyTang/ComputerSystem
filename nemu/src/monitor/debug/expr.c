@@ -115,7 +115,7 @@ static bool make_token(char *e) {
             //TODO();
             break;
         }
-        tokens[nr_token].type=rules[i].token_type;
+        tokens[nr_token].type=rules[i].token_type;//一定要加上这句话
         printf("nr_token = %d , str = %s , token_type = %d \n",nr_token,tokens[nr_token].str,tokens[nr_token].type);
         nr_token+=1;//新token
         break;
@@ -134,13 +134,13 @@ bool check_parentheses(int p,int q)
 { //根据指导手册，表达式必须被一对匹配的括号包括在内
   if(p>=q)//wrong input0
   {
-    printf("there's no expression \n");
+    //printf("there's no expression \n");
     return false;
   }
   //wrong input1
   else if((tokens[p].type!='(')||(tokens[q].type!=')'))
   {
-    printf("not surrounded by parenthesis \n");
+    //printf("not surrounded by parenthesis \n");
     return false;
   }
   int leftcnt=0;
@@ -178,7 +178,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
   //表达式优先级：非4 负3 乘除2 加减1
   int dominant_operator=100;//记录选中的运算符是什么
   int revalue=p-1;//返回的是选中的token下标
-  printf("p=%d,q=%d\n",p,q);
+  //printf("p=%d,q=%d\n",p,q);
   for(int i=p;i<=q;i++)
   {
     if(tokens[i].type=='(')
@@ -193,7 +193,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
     {
       continue;
     }
-    printf("here is %s\n",tokens[i].str);
+    //printf("here is %s\n",tokens[i].str);
     //乘除法
     if(dominant_operator>=2)
     {
@@ -219,7 +219,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
     assert(0);
     return 0;
   }
-  printf("dominant operator is %s",tokens[revalue].str);
+  printf("dominant operator is %s\n",tokens[revalue].str);
   return revalue;
 }
 
