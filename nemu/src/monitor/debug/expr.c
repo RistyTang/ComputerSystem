@@ -92,6 +92,7 @@ static bool make_token(char *e) {
          */
         //记录到token数组中
         const char * endzero='\0';
+        printf("wrong after here\n");
         switch (rules[i].token_type) 
         {
           case TK_DECIMIAL://10
