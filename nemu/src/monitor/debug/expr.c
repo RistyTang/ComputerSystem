@@ -112,7 +112,9 @@ static bool make_token(char *e) {
           case  TK_NOTYPE://空格
             break;
           case '+':
-            printf("here \n");
+            //printf("here \n");
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
             break;
           default: 
             //TODO();

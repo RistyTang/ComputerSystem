@@ -1,6 +1,7 @@
 #include "nemu.h"
 #include <unistd.h>
 
+//eip指向初值为0x100000
 #define ENTRY_START 0x100000
 
 void init_difftest();
@@ -25,6 +26,7 @@ static inline void init_log() {
 #endif
 }
 
+//执行到此说明初始化工作完成，之后ui,c的mainloop
 static inline void welcome() {
   printf("Welcome to NEMU!\n");
   Log("Build time: %s, %s", __TIME__, __DATE__);
@@ -79,6 +81,7 @@ static inline void load_img() {
 #endif
 }
 
+//指向开始位置
 static inline void restart() {
   /* Set the initial instruction pointer. */
   cpu.eip = ENTRY_START;
