@@ -87,7 +87,7 @@ static int cmd_info(char *args) {//打印寄存器
   else if(args[0]=='w')//monitors
   {
 
-    //return 0;
+    print_wp();
   }
   return 0;
 }
