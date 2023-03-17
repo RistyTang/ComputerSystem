@@ -36,12 +36,13 @@ WP* new_wp(char * args)//分配一个监视点
     choosepoint->next=NULL;
     WP* temp=head;
     //链接到head链表上
+    printf("wrong here or not\n");
     while(temp->next!=NULL)
     {
       temp=temp->next;
     }
     temp->next=choosepoint;
-    printf("wrong here or not\n");
+    
   }
   //设置控制点相关的值
   strcpy(choosepoint->expr,args);
