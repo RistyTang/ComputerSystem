@@ -262,7 +262,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
       revalue=i;
     }
     // ||
-    if((dominant_operator>=11)&&(tokens[i].type==TK_OR))
+    if((dominant_operator>=11)&&(tokens[i].type == TK_OR))
     {
       dominant_operator=11;
       revalue=i;
