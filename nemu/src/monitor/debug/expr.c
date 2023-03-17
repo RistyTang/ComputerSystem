@@ -255,14 +255,17 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
         revalue=i;
       }
     }
-    // || &&
-    if(dominant_operator >= 12)
+    // &&
+    if((dominant_operator>=12)&&(tokens[i].type==TK_AND))
     {
-      if(tokens[i].type ==TK_AND ||tokens[i].type == TK_OR)
-      {
-        dominant_operator=12;
-        revalue=i;
-      }
+      dominant_operator=12;
+      revalue=i;
+    }
+    // ||
+    if((dominant_operator>=11)&&(tokens[i].type==TK_OR))
+    {
+      dominant_operator=11;
+      revalue=i;
     }
   }
   if(revalue == p-1)
@@ -275,7 +278,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
   return revalue;
 }
 
-int eval(int p,int q)
+uint32_t eval(int p,int q)
 {
   if(p>q)
   {
@@ -284,7 +287,7 @@ int eval(int p,int q)
   }
   else if(p==q)//number
   {
-    int revalue;
+    uint32_t revalue;
     switch (tokens[p].type)
     {
     case TK_DECIMIAL://10
@@ -329,10 +332,10 @@ int eval(int p,int q)
   else
   {
     int op=find_dominant_oprator(p,q);
-    int val2=eval(op+1,q);
+    uint32_t val2=eval(op+1,q);
     if(tokens[op].type==TK_NOT)//!
     {
-      int tempres=eval(p+1,q);
+      uint32_t tempres=eval(p+1,q);
       if(tempres)
       {
         return 0;
@@ -347,7 +350,7 @@ int eval(int p,int q)
     {
       return vaddr_read(val2,4);
     }
-    int val1=eval(p,op-1);
+    uint32_t val1=eval(p,op-1);
     switch (tokens[op].type)
     {
     case '+':
