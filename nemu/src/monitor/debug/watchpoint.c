@@ -117,3 +117,25 @@ void print_wp()//打印所有监视点信息
   }
 }
 
+bool check_wp_changes()
+{
+  if(head==NULL)
+  {
+    return true;
+  }
+  WP* temp=head;
+  bool flag;
+  while(temp)
+  {
+    int cur_res=expr(temp->expr,&flag);
+    if(cur_res!=temp->value)
+    {
+      printf("No.%d watchpoint has changed, old value is %d,new value is %d\n",temp->NO,temp->value,cur_res);
+      temp->value=cur_res;//更新值
+      return false;
+    }
+    temp=temp->next;
+  }
+  return true;
+}
+
