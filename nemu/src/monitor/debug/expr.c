@@ -10,7 +10,8 @@ enum {
 
   /* TODO: Add more token types */
   TK_HEX,TK_OCTAL,TK_DECIMIAL,
-  TK_NEQ,TK_REG
+  TK_NEQ,TK_REG,
+  TK_MINUS,TK_NOT,TK_ASTERISK//'-'  '!' '*'
 
 };
 
@@ -35,8 +36,8 @@ static struct rule {
   {"\\/", '/'},          // div
   {"\\(", '('},          // (
   {"\\)", ')'},          // )
-  {"\\$(eax|ebx|ecx|edx|esp|ebp|esi|edi|eip|ax|bx|cx|dx|sp|bp|si|di|al|bl|cl|dl|ah|bh|ch|dh)", TK_REG}
-
+  {"\\$(eax|ebx|ecx|edx|esp|ebp|esi|edi|eip|ax|bx|cx|dx|sp|bp|si|di|al|bl|cl|dl|ah|bh|ch|dh)", TK_REG},
+  {"!", TK_NOT}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -191,7 +192,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
 {
   //此表达式一定不是（expr)形式
   int level=0;//辨别括号优先级
-  //表达式优先级：非4 负3 乘除2 加减1
+  //表达式优先级：非负3 乘除2 加减1
   int dominant_operator=100;//记录选中的运算符是什么
   int revalue=p-1;//返回的是选中的token下标
   //printf("p=%d,q=%d\n",p,q);
@@ -209,7 +210,15 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
     {
       continue;
     }
-    //printf("here is %s\n",tokens[i].str);
+    //非，负，取值
+    if(dominant_operator>=3)
+    {
+      if(tokens[i].type==TK_MINUS||tokens[i].type==TK_NOT||tokens[i].type==TK_ASTERISK)
+      {
+        dominant_operator=3;
+        revalue=i;
+      }
+    }
     //乘除法
     if(dominant_operator>=2)
     {
@@ -295,6 +304,23 @@ int eval(int p,int q)
     int op=find_dominant_oprator(p,q);
     int val1=eval(p,op-1);
     int val2=eval(op+1,q);
+    if(tokens[op].type==TK_NOT)//!
+    {
+      int tempres=eval(p+1,q);
+      if(tempres)
+      {
+        return 0;
+      }
+      return 1;
+    }
+    else if(tokens[op].type==TK_MINUS)//-
+    {
+      return -(eval(p+1,q));
+    }
+    else if(tokens[op].type==TK_ASTERISK)//*
+    {
+      return vaddr_read(val2,4);
+    }
     switch (tokens[op].type)
     {
     case '+':
@@ -305,7 +331,10 @@ int eval(int p,int q)
       return val1 * val2;
     case '/':
       return val1 / val2;
-    
+    case TK_EQ:
+      return val1 == val2;
+    case TK_NEQ:
+      return val1 != val2;
     default:
       printf("no matched operator\n");
       assert(0);
