@@ -113,6 +113,7 @@ void print_wp()//打印所有监视点信息
   while(temp)
   {
     printf("No.%d watchpoint : expr->%s  value->%d\n",temp->NO,temp->expr,temp->value);
+    temp=temp->next;
   }
 }
 
