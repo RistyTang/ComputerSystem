@@ -23,7 +23,6 @@ void init_wp_pool() {
 WP* new_wp(char * args)//分配一个监视点
 {
   WP* choosepoint=free_;
-  printf("wrong here or not\n");
   if(free_==NULL)//没有空闲的监视点
   {
     printf("there's no empty watchpoint left\n");
@@ -42,6 +41,7 @@ WP* new_wp(char * args)//分配一个监视点
       temp=temp->next;
     }
     temp->next=choosepoint;
+    printf("wrong here or not\n");
   }
   //设置控制点相关的值
   strcpy(choosepoint->expr,args);
