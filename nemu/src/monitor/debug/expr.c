@@ -109,10 +109,6 @@ static bool make_token(char *e) {
             strncpy(tokens[nr_token].str,substr_start+1,substr_len-1);//去除$
             tokens[nr_token].str[substr_len] = '\0';
             break;
-          case '+':
-            tokens[nr_token].str[substr_len] = '+';
-            tokens[nr_token].str[substr_len+1] = '\0';
-            break;
           case  TK_NOTYPE://空格
             break;
           default: 
