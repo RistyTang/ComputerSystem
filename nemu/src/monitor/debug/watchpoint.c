@@ -84,22 +84,31 @@ WP* new_wp(char * args)//分配一个监视点
 void free_wp(WP* wp)//将wp归还到free表中
 {
   //从head表中取出
-  WP* tempinhead=head;
+  WP* front=head;
   if(head==wp)
   {
     head=head->next;
   }
   else
   {
-    while(tempinhead->next!=wp)
+    while(front)
     {
-      tempinhead=tempinhead->next;
+      if(front->next==wp)
+      {
+        break;
+      }
+      front=front->next;
     }
-    tempinhead->next=(tempinhead->next)->next;
+    if(front==NULL)
+    {
+      printf("No.%d watchpoint is not in use\n",wp->NO);
+      return;
+    }
+    front->next=wp->next;
   }
   //放入free表
-  tempinhead->next=free_;
-  free_=tempinhead;
+  wp->next=free_;
+  free_=wp;
   printf("you have delete watchpoint %d successfully\n",wp->NO);
 }
 
