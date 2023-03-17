@@ -141,12 +141,14 @@ static int cmd_x(char * args) {//扫描内存
   printf("\n");
   return 0;
 }
-/*
-static int cmd_w(char * args) {//设置监视点
 
+static int cmd_w(char * args) 
+{//设置监视点
+  WP* newwp=new_wp(args);
+  printf("set watchpoint NO.%d at expr %s\n",newwp->NO,newwp->expr);
   return 0;
 }
-
+/*
 static int cmd_d(char * args) {//删除监视点
 
   return 0;
@@ -166,7 +168,7 @@ static struct {
   {"info","print information of regs or moniors",cmd_info },
   {"p","calculate the results of exprs",cmd_p},
   {"x","scan the memory",cmd_x},
-  //{"w","set a monitor",cmd_w},
+  {"w","set a monitor",cmd_w},
   //{"d","delete a monitor",cmd_d}
 
 };
