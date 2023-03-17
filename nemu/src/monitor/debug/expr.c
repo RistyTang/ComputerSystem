@@ -302,7 +302,6 @@ int eval(int p,int q)
   else
   {
     int op=find_dominant_oprator(p,q);
-    int val1=eval(p,op-1);
     int val2=eval(op+1,q);
     if(tokens[op].type==TK_NOT)//!
     {
@@ -321,6 +320,7 @@ int eval(int p,int q)
     {
       return vaddr_read(val2,4);
     }
+    int val1=eval(p,op-1);
     switch (tokens[op].type)
     {
     case '+':
