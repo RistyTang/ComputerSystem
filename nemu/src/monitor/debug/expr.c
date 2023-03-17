@@ -366,6 +366,7 @@ uint32_t eval(int p,int q)
     case TK_NEQ:
       return val1 != val2;
     case TK_AND:
+      printf("val1=%d,val2=%d\n",val1,val2);
       return val1 && val2;
     case TK_OR:
       return val1 || val2;
