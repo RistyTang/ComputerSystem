@@ -77,6 +77,7 @@ WP* new_wp(char * args)//分配一个监视点
   strcpy(choosepoint->expr,args);
   bool flags=false;
   choosepoint->value=expr(args,&flags);
+  choosepoint->next=NULL;
   return choosepoint;
 }
 
