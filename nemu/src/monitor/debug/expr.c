@@ -30,7 +30,6 @@ static struct rule {
   {"!=", TK_NEQ},        // not equal
   {"0x[0-9A-Fa-f]*|0X[0-9A-Fa-f]*",TK_HEX}, //hexadecimial
   {"[1-9][0-9]*|0",TK_DECIMIAL}, //10
-  
   {"0[0-7]*",TK_OCTAL},  //8
   {"\\-", '-'},          // sub
   {"\\*", '*'},          // mul
