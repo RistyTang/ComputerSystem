@@ -111,6 +111,9 @@ static bool make_token(char *e) {
             break;
           case  TK_NOTYPE://空格
             break;
+          case '+':
+            printf("here \n");
+            break;
           default: 
             //TODO();
             break;
