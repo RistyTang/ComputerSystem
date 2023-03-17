@@ -49,7 +49,6 @@ WP* new_wp(char * args)//分配一个监视点
       }
       temp->next=choosepoint;
     }
-    
   }
   //设置控制点相关的值
   strcpy(choosepoint->expr,args);
