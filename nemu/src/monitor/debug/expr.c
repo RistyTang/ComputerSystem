@@ -11,8 +11,8 @@ enum {
   /* TODO: Add more token types */
   TK_HEX,TK_OCTAL,TK_DECIMIAL,
   TK_NEQ,TK_REG,
-  TK_MINUS,TK_NOT,TK_ASTERISK//'-'  '!' '*'
-
+  TK_MINUS,TK_NOT,TK_ASTERISK,//'-'  '!' '*'
+  TK_AND,TK_OR//&& ||
 };
 
 static struct rule {
@@ -37,7 +37,9 @@ static struct rule {
   {"\\(", '('},          // (
   {"\\)", ')'},          // )
   {"\\$(eax|ebx|ecx|edx|esp|ebp|esi|edi|eip|ax|bx|cx|dx|sp|bp|si|di|al|bl|cl|dl|ah|bh|ch|dh)", TK_REG},
-  {"!", TK_NOT}
+  {"!", TK_NOT},
+  {"&&", TK_AND},
+  {"\\|\\|", TK_OR}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -128,6 +130,22 @@ static bool make_token(char *e) {
             strncpy(tokens[nr_token].str,substr_start,substr_len);
             tokens[nr_token].str[substr_len] = '\0';
             break;
+          case TK_AND:
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            break;
+          case TK_OR:
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            break;
+          case TK_EQ:
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            break;
+          case TK_NEQ:
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            break;
           default: 
             //TODO();
             break;
@@ -192,7 +210,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
 {
   //此表达式一定不是（expr)形式
   int level=0;//辨别括号优先级
-  //表达式优先级：非负3 乘除2 加减1
+  //表达式优先级：非负15 乘除14 加减13
   int dominant_operator=100;//记录选中的运算符是什么
   int revalue=p-1;//返回的是选中的token下标
   //printf("p=%d,q=%d\n",p,q);
@@ -211,29 +229,38 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
       continue;
     }
     //非，负，取值
-    if(dominant_operator>=3)
+    if(dominant_operator>=15)
     {
       if(tokens[i].type==TK_MINUS||tokens[i].type==TK_NOT||tokens[i].type==TK_ASTERISK)
       {
-        dominant_operator=3;
+        dominant_operator=15;
         revalue=i;
       }
     }
     //乘除法
-    if(dominant_operator>=2)
+    if(dominant_operator>=14)
     {
       if(tokens[i].type == '*'||tokens[i].type == '/')
       {
-        dominant_operator=2;
+        dominant_operator=14;
         revalue=i;
       }
     }
     //加减法
-    if(dominant_operator >= 1)
+    if(dominant_operator >= 13)
     {
       if(tokens[i].type == '+'||tokens[i].type == '-')
       {
-        dominant_operator=1;
+        dominant_operator=13;
+        revalue=i;
+      }
+    }
+    // || &&
+    if(dominant_operator >= 12)
+    {
+      if(tokens[i].type ==TK_AND ||tokens[i].type == TK_OR)
+      {
+        dominant_operator=12;
         revalue=i;
       }
     }
@@ -335,6 +362,10 @@ int eval(int p,int q)
       return val1 == val2;
     case TK_NEQ:
       return val1 != val2;
+    case TK_AND:
+      return val1 && val2;
+    case TK_OR:
+      return val1 || val2;
     default:
       printf("no matched operator\n");
       assert(0);
