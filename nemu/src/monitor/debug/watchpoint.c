@@ -24,7 +24,7 @@ WP* get_wp(int num)//根据传入的序号找到该监视点
 {
   if(head==NULL)
   {
-    printf("there is no watchpoint\n");
+    //printf("there is no watchpoint\n");
     return NULL;
   }
   WP* tempwp=head;
@@ -99,5 +99,6 @@ void free_wp(WP* wp)//将wp归还到free表中
   //放入free表
   tempinhead->next=free_;
   free_=tempinhead;
+  printf("you have delete watchpoint %d successfully\n",wp->NO);
 }
 
