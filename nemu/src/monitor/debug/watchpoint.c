@@ -95,7 +95,7 @@ void free_wp(WP* wp)//将wp归还到free表中
     {
       tempinhead=tempinhead->next;
     }
-    tempinhead->next=wp->next;
+    tempinhead->next=(tempinhead->next)->next;
   }
   //放入free表
   tempinhead->next=free_;
