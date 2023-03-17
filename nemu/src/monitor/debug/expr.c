@@ -192,6 +192,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
     {
       continue;
     }
+    printf("here is %s",tokens[i].str);
     //乘除法
     if(((tokens[i].type=='*')||(tokens[i].type=='/'))&&(dominant_operator>=2))
     {
