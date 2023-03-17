@@ -157,7 +157,7 @@ static int cmd_d(char * args)
   WP* dwp=get_wp(num);
   if(dwp==NULL)
   {
-    printf("there is no watch point\n");
+    printf("there is no watchpoint %d\n",num);
     return 1;
   }
   free_wp(dwp);

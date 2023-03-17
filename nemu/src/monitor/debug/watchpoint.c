@@ -102,3 +102,17 @@ void free_wp(WP* wp)//将wp归还到free表中
   printf("you have delete watchpoint %d successfully\n",wp->NO);
 }
 
+void print_wp()//打印所有监视点信息
+{
+  WP* temp=head;
+  if(temp==NULL)
+  {
+    printf("there is no watchpoint now\n");
+    return;
+  }
+  while(temp)
+  {
+    printf("No.%d watchpoint : expr->%s  value->%d\n",temp->NO,temp->expr,temp->value);
+  }
+}
+
