@@ -148,12 +148,22 @@ static int cmd_w(char * args)
   printf("set watchpoint NO.%d at expr %s\n",newwp->NO,newwp->expr);
   return 0;
 }
-/*
-static int cmd_d(char * args) {//删除监视点
 
+static int cmd_d(char * args) 
+{//删除监视点
+  char *temp =strtok(NULL," ");
+  int num=0;
+  sscanf(temp,"%d",&num);
+  WP* dwp=get_wp(num);
+  if(dwp==NULL)
+  {
+    printf("there is no watch point\n");
+    return 1;
+  }
+  free_wp(dwp);
   return 0;
 }
-*/
+
 static struct {
   char *name;
   char *description;
@@ -169,7 +179,7 @@ static struct {
   {"p","calculate the results of exprs",cmd_p},
   {"x","scan the memory",cmd_x},
   {"w","set a monitor",cmd_w},
-  //{"d","delete a monitor",cmd_d}
+  {"d","delete a monitor",cmd_d}
 
 };
 

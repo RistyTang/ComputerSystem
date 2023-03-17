@@ -20,6 +20,29 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* get_wp(int num)//根据传入的序号找到该监视点
+{
+  if(head==NULL)
+  {
+    printf("there is no watchpoint\n");
+    return NULL;
+  }
+  WP* tempwp=head;
+  while(tempwp->next!=NULL)
+  {
+    if(tempwp->NO==num)
+    {
+      break;
+    }
+    tempwp=tempwp->next;
+  }
+  if(tempwp->NO==num)
+  {
+    return tempwp;
+  }
+  return NULL;
+}
+
 WP* new_wp(char * args)//分配一个监视点
 {
   WP* choosepoint=free_;
