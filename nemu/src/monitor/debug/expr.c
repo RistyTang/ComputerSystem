@@ -178,6 +178,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
   //表达式优先级：非4 负3 乘除2 加减1
   int dominant_operator=100;//记录选中的运算符是什么
   int revalue=p-1;//返回的是选中的token下标
+  printf("p=%d,q=%d\n",p,q);
   for(int i=p;i<=q;i++)
   {
     if(tokens[i].type=='(')
@@ -192,7 +193,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
     {
       continue;
     }
-    printf("here is %s",tokens[i].str);
+    printf("here is %s\n",tokens[i].str);
     //乘除法
     if(((tokens[i].type=='*')||(tokens[i].type=='/'))&&(dominant_operator>=2))
     {
