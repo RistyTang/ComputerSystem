@@ -148,6 +148,8 @@ static bool make_token(char *e) {
             break;
           default: 
             //TODO();
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
             break;
         }
         tokens[nr_token].type=rules[i].token_type;//一定要加上这句话
