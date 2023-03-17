@@ -29,7 +29,7 @@ static struct rule {
   {"==", TK_EQ},         // equal
   {"!=", TK_NEQ},        // not equal
   {"0[X|x][0-9A-Fa-f]*",TK_HEX}, //hexadecimial
-  {"0|[1-9][0-9]*",TK_DECIMIAL}, //10
+  {"[1-9][0-9]*|0",TK_DECIMIAL}, //10
   {"0[0-7]*",TK_OCTAL},  //8
   {"\\-", '-'},          // sub
   {"\\*", '*'},          // mul
@@ -366,7 +366,6 @@ uint32_t eval(int p,int q)
     case TK_NEQ:
       return val1 != val2;
     case TK_AND:
-      printf("val1=%d,val2=%d\n",val1,val2);
       return val1 && val2;
     case TK_OR:
       return val1 || val2;
