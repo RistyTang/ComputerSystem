@@ -91,28 +91,28 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         //记录到token数组中
-        const char * endzero='\0';
-        printf("wrong after here\n");
+        //printf("wrong after here\n");
         switch (rules[i].token_type) 
         {
           case TK_DECIMIAL://10
             strncpy(tokens[nr_token].str,substr_start,substr_len);
-            strcat(tokens[nr_token].str,endzero);//末尾添加\0
+            tokens[nr_token].str[substr_len] = '\0';
+            //strcat(tokens[nr_token].str,endzero);//末尾添加\0
             printf("10bit: %s",tokens[nr_token].str);
             break;
           case TK_HEX://16
             strncpy(tokens[nr_token].str,substr_start+2,substr_len-2);//去除0x
-            strcat(tokens[nr_token].str,endzero);
+            tokens[nr_token].str[substr_len] = '\0';
             printf("16bit: %s",tokens[nr_token].str);
             break;
           case TK_OCTAL://8
             strncpy(tokens[nr_token].str,substr_start+1,substr_len-1);//去除0
-            strcat(tokens[nr_token].str,endzero);
+            tokens[nr_token].str[substr_len] = '\0';
             printf("8bit: %s",tokens[nr_token].str);
             break;
           case TK_REG://registers
             strncpy(tokens[nr_token].str,substr_start+1,substr_len-1);//去除$
-            strcat(tokens[nr_token].str,endzero);
+            tokens[nr_token].str[substr_len] = '\0';
             printf("regs: %s",tokens[nr_token].str);
             break;
           case  TK_NOTYPE://空格
