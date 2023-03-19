@@ -198,7 +198,8 @@ bool check_parentheses(int p,int q)
       return false;
     }
   }
-  rightcnt+=1;
+  if(tokens[q].type==')')
+    rightcnt+=1;
   //wrong input 2
   if(leftcnt!=rightcnt)
   {

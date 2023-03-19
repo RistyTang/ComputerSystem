@@ -62,19 +62,6 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args) {//打印寄存器
   if(args[0]=='r')//registers
   {
-    /*
-    printf("-----32bit regs------\n");
-    printf("eax : %x \n",cpu.eax);
-    printf("ecx : %x \n",cpu.ecx);
-    printf("edx : %x \n",cpu.edx);
-    printf("ebx : %x \n",cpu.ebx);
-    printf("esp : %x \n",cpu.esp);
-    printf("ebp : %x \n",cpu.ebp);
-    printf("esi : %x \n",cpu.esi);
-    printf("edi : %x \n",cpu.edi);
-    printf("eip : %x \n",cpu.eip);
-    printf("-----16bit regs-----\n");
-    */
    printf("-----32bit regs------\n");
    for(int i=0;i<8;i++)
    {
