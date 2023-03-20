@@ -111,17 +111,14 @@ static int cmd_x(char * args) {//扫描内存
   //分割N和expr
   char* n=strtok(args," ");
   char* EXPR=strtok(NULL," ");
-  //return 0;
   if(n==NULL||EXPR==NULL)
   {
     printf("缺少起始内存地址或打印数字\n");
     return 1;
   }
   int N = atoi(n);
-  //char * stop;
   bool flag=false;
   int exprres=expr(EXPR,&flag);
-  //vaddr_t EXPR=strtol(expr,&stop,16);
   printf("memory :\n");
   for(int i=0;i<N;i++)
   {
