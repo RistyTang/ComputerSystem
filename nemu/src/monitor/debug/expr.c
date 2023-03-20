@@ -178,7 +178,7 @@ bool check_parentheses(int p,int q)
   else if((tokens[p].type!='(')||(tokens[q].type!=')'))
   {
     printf("not surrounded by parenthesis \n");
-    assert(0);
+    //assert(0);
     return false;
   }
   int leftcnt=0;
