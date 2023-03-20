@@ -110,26 +110,28 @@ static int cmd_x(char * args) {//扫描内存
   }
   //分割N和expr
   char* n=strtok(args," ");
-  char* expr=strtok(NULL," ");
+  char* EXPR=strtok(NULL," ");
   //return 0;
-  if(n==NULL||expr==NULL)
+  if(n==NULL||EXPR==NULL)
   {
     printf("缺少起始内存地址或打印数字\n");
     return 1;
   }
   int N = atoi(n);
-  char * stop;
-  vaddr_t EXPR=strtol(expr,&stop,16);
+  //char * stop;
+  bool flag=false;
+  int exprres=expr(EXPR,&flag);
+  //vaddr_t EXPR=strtol(expr,&stop,16);
   printf("memory :\n");
   for(int i=0;i<N;i++)
   {
     if(i%4==0)
     {
-      printf("\n0x%x:   0x%02x",EXPR+i,vaddr_read(EXPR+i,1));
+      printf("\n0x%x:   0x%02x",exprres+i,vaddr_read(exprres+i,1));
     }
     else
     {
-      printf("  0x%02x",vaddr_read(EXPR+i,1));
+      printf("  0x%02x",vaddr_read(exprres+i,1));
     }
     
   }
