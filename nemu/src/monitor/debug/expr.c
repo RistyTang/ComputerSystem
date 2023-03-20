@@ -280,7 +280,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
   if(revalue == p-1)
   {
     printf("can't find a legal operator\n");
-    assert(0);
+    //assert(0);
     return 0;
   }
   printf("dominant operator is %s\n",tokens[revalue].str);
