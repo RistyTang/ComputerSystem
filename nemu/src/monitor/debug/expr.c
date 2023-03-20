@@ -171,13 +171,14 @@ bool check_parentheses(int p,int q)
 { //根据指导手册，表达式必须被一对匹配的括号包括在内
   if(p>=q)//wrong input0
   {
-    //printf("there's no expression \n");
+    printf("there's no expression \n");
     return false;
   }
   //wrong input1
   else if((tokens[p].type!='(')||(tokens[q].type!=')'))
   {
-    //printf("not surrounded by parenthesis \n");
+    printf("not surrounded by parenthesis \n");
+    assert(0);
     return false;
   }
   int leftcnt=0;
@@ -280,7 +281,7 @@ int find_dominant_oprator(int p, int q)//找到求值时最后一个计算的运
   if(revalue == p-1)
   {
     printf("can't find a legal operator\n");
-    //assert(0);
+    assert(0);
     return 0;
   }
   printf("dominant operator is %s\n",tokens[revalue].str);
