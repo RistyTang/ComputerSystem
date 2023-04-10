@@ -206,10 +206,10 @@ opcode_entry opcode_table [512] = {//代码框架中实现的指令，empty为�
 };
 
 static make_EHelper(2byte_esc) {
-  uint32_t opcode = instr_fetch(eip, 1) | 0x100;
-  decoding.opcode = opcode;
-  set_width(opcode_table[opcode].width);
-  idex(eip, &opcode_table[opcode]);
+  uint32_t opcode = instr_fetch(eip, 1) | 0x100;//得到指令的第一个字节，将其解释为opcode
+  decoding.opcode = opcode;//记录在全局变量中
+  set_width(opcode_table[opcode].width);//查阅译码查找表，得到操作数的宽度信息并记录
+  idex(eip, &opcode_table[opcode]);//进一步执行
 }
 
 make_EHelper(real) {
@@ -229,8 +229,9 @@ void exec_wrapper(bool print_flag) {
   decoding.p += sprintf(decoding.p, "%8x:   ", cpu.eip);
 #endif
 
-  decoding.seq_eip = cpu.eip;
-  exec_real(&decoding.seq_eip);
+  decoding.seq_eip = cpu.eip;//将当前的eip存入全局译码信息中
+  //exec_real通过make_EHelper定义，在。h中
+  exec_real(&decoding.seq_eip);//传入参数为其地址;返回结果为下一条指令的地址（存在seq_eip中）
 
 #ifdef DEBUG
   int instr_len = decoding.seq_eip - cpu.eip;

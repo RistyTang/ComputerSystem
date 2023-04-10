@@ -2,14 +2,14 @@
 #define __CPU_EXEC_H__
 
 #include "nemu.h"
-
+//定义一个执行阶段相关的helper函数，通过不同的helper函数定义不同的步骤
 #define make_EHelper(name) void concat(exec_, name) (vaddr_t *eip)
 typedef void (*EHelper) (vaddr_t *);
 
 #include "cpu/decode.h"
 
 static inline uint32_t instr_fetch(vaddr_t *eip, int len) {
-  uint32_t instr = vaddr_read(*eip, len);
+  uint32_t instr = vaddr_read(*eip, len);//得到指令的第一个字节
 #ifdef DEBUG
   uint8_t *p_instr = (void *)&instr;
   int i;

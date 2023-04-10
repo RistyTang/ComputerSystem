@@ -73,10 +73,10 @@ extern DecodeInfo decoding;
 
 #define make_DHelper(name) void concat(decode_, name) (vaddr_t *eip)
 typedef void (*DHelper) (vaddr_t *);
-
+//查看i386附录a
 make_DHelper(I2E);
-make_DHelper(I2a);
-make_DHelper(I2r);
+make_DHelper(I2a);//立即数-地址
+make_DHelper(I2r);//立即数-寄存器
 make_DHelper(SI2E);
 make_DHelper(SI_E2G);
 make_DHelper(I_E2G);
