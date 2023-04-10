@@ -209,7 +209,7 @@ static make_EHelper(2byte_esc) {
   uint32_t opcode = instr_fetch(eip, 1) | 0x100;//得到指令的第一个字节，将其解释为opcode
   decoding.opcode = opcode;//记录在全局变量中
   set_width(opcode_table[opcode].width);//查阅译码查找表，得到操作数的宽度信息并记录
-  idex(eip, &opcode_table[opcode]);//进一步执行
+  idex(eip, &opcode_table[opcode]);//进一步执行,实现了译码和执行之间的解耦操作
 }
 
 make_EHelper(real) {
