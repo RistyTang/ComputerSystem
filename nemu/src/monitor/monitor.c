@@ -85,7 +85,9 @@ static inline void load_img() {
 static inline void restart() {
   /* Set the initial instruction pointer. */
   cpu.eip = ENTRY_START;
-
+  //eflags初始化：
+  unsigned int flagsinit=0x2;
+  memcpy(&cpu.eflags,&flagsinit,sizeof(cpu.eflags));
 #ifdef DIFF_TEST
   init_qemu_reg();
 #endif

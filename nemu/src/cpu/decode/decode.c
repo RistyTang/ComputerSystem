@@ -7,7 +7,7 @@ rtlreg_t t0, t1, t2, t3;
 const rtlreg_t tzero = 0;
 
 #define make_DopHelper(name) void concat(decode_op_, name) (vaddr_t *eip, Operand *op, bool load_val)
-
+//load_val判断是否需要取出值
 /* Refer to Appendix A in i386 manual for the explanations of these abbreviations */
 
 /* Ib, Iv */
