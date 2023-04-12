@@ -39,8 +39,19 @@ make_EHelper(sub) {
 }
 
 make_EHelper(cmp) {
-  TODO();
-
+  //TODO();
+  //eflags ZFSF
+  rtl_update_ZFSF(&t0,id_dest->width);
+  //CF
+  rtl_sltu(&t1,&id_dest->val,&id_src->val);
+  rtl_set_CF(&t1);
+  //OF
+  rtl_xor(&t1,&id_dest->val,&id_src->val);
+  rtl_xor(&t2,&id_dest->val,&t0);
+  rtl_and(&t0,&t1,&t2);
+  rtl_msb(&t0,&t0,id_dest->width);
+  rtl_set_OF(&t0);
+  
   print_asm_template2(cmp);
 }
 
@@ -57,8 +68,14 @@ make_EHelper(inc) {
 }
 
 make_EHelper(dec) {
-  TODO();
-
+  //TODO();
+  rtl_subi(&t0,&id_dest->val,1);
+  operand_write(id_dest,&t0);
+  //eflags ZFSF
+  rtl_update_ZFSF(&t0,id_dest->width);
+  //OF
+  rtl_eqi(&t1,&t0,0x7fffffff);
+  rtl_set_OF(&t1);
   print_asm_template1(dec);
 }
 
