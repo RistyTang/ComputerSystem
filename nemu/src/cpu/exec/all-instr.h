@@ -12,3 +12,5 @@ make_EHelper(pop);
 make_EHelper(sub);
 make_EHelper(xor);
 make_EHelper(ret);
+//pa2.2
+make_EHelper(leave);
