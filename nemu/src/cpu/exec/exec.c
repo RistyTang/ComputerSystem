@@ -51,8 +51,8 @@ make_group(gp2,
 
   /* 0xf6, 0xf7 */
 make_group(gp3,
-    EMPTY, EMPTY, EMPTY, EMPTY,
-    EMPTY, EMPTY, EMPTY, EMPTY)
+    EMPTY, EMPTY, EMPTY, EX(neg),
+    EX(mul), EX(imul1), EX(div), EX(idiv))
 
   /* 0xfe */
 make_group(gp4,
@@ -76,10 +76,10 @@ opcode_entry opcode_table [512] = {//代码框架中实现的指令，empty为�
   /* 0x04 */	IDEXW(I2a,add,1), IDEX(I2a,add), EMPTY, EMPTY,
   /* 0x08 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x0c */	EMPTY, EMPTY, EMPTY, EX(2byte_esc),
-  /* 0x10 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x14 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x18 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x1c */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x10 */	IDEXW(G2E,adc,1), IDEX(G2E,adc), IDEXW(E2G,adc,1), IDEX(E2G,adc),
+  /* 0x14 */	IDEXW(I2a,adc,1), IDEX(I2a,adc), EMPTY, EMPTY,
+  /* 0x18 */	IDEXW(G2E,sbb,1), IDEX(G2E,sbb), IDEXW(E2G,sbb,1), IDEX(E2G,sbb),
+  /* 0x1c */	IDEXW(I2a,sbb,1), IDEX(I2a,sbb), EMPTY, EMPTY,
   /* 0x20 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x24 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x28 */	EMPTY, EMPTY, EMPTY, EMPTY,
@@ -98,7 +98,7 @@ opcode_entry opcode_table [512] = {//代码框架中实现的指令，empty为�
   /* 0x5c */	IDEXW(r,pop,4), IDEXW(r,pop,4), IDEXW(r,pop,4), IDEXW(r,pop,4),
   /* 0x60 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x64 */	EMPTY, EMPTY, EX(operand_size), EMPTY,
-  /* 0x68 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x68 */	EMPTY, IDEX(I_E2G,imul3), EMPTY, IDEX(SI_E2G,imul3),
   /* 0x6c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x70 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x74 */	EMPTY, EMPTY, EMPTY, EMPTY,
