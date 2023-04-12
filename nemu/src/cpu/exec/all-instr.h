@@ -15,3 +15,6 @@ make_EHelper(ret);
 //pa2.2
 make_EHelper(leave);
 make_EHelper(lea);
+make_EHelper(cltd);
+make_EHelper(movsx);
+make_EHelper(movzx);
