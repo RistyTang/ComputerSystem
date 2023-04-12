@@ -18,3 +18,6 @@ make_EHelper(lea);
 make_EHelper(cltd);
 make_EHelper(movsx);
 make_EHelper(movzx);
+
+make_EHelper(add);
+make_EHelper(inc);
