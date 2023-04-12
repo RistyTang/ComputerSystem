@@ -14,3 +14,4 @@ make_EHelper(xor);
 make_EHelper(ret);
 //pa2.2
 make_EHelper(leave);
+make_EHelper(lea);
