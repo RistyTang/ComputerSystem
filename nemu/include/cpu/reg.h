@@ -15,13 +15,6 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 //用于模拟寄存器的结构体
 typedef struct {
-  /*
-  struct {
-    uint32_t _32;
-    uint16_t _16;
-    uint8_t _8[2];
-  } gpr[8];
-  */
    union 
   {
     union 
@@ -46,7 +39,7 @@ typedef struct {
    */
 
   vaddr_t eip;
-  //实现标志寄存器
+  /*
   struct flags
   {
     rtlreg_t CF:1;
@@ -68,7 +61,33 @@ typedef struct {
     rtlreg_t VM:1;
     rtlreg_t   :14;
   } eflags;
-    
+  */
+  //实现标志寄存器
+  union 
+  {
+      struct
+    {
+      rtlreg_t CF:1;
+      rtlreg_t   :1;
+      rtlreg_t PF:1;
+      rtlreg_t   :1;
+      rtlreg_t AF:1;
+      rtlreg_t   :1;
+      rtlreg_t ZF:1;
+      rtlreg_t SF:1;
+      rtlreg_t TF:1;
+      rtlreg_t IF:1;
+      rtlreg_t DF:1;
+      rtlreg_t OF:1;
+      rtlreg_t IOPL:2;
+      rtlreg_t NT:1;
+      rtlreg_t   :1;
+      rtlreg_t RF:1;
+      rtlreg_t VM:1;
+      rtlreg_t   :14;
+    } ;
+    rtlreg_t value;
+  } eflags;
 
 } CPU_state;
 
