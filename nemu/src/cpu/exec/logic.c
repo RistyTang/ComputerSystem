@@ -2,7 +2,7 @@
 
 make_EHelper(test) {
   //TODO();
-  rtl_and(&t1,&id_dest->val,&id_src->val);
+  rtl_and(&t1,&id_dest->val,&id_src->val);//用t0会报错，因为ZF时会用到
   //eflags:
   rtl_update_ZFSF(&t1,id_dest->width);
   rtl_set_CF(&tzero);
