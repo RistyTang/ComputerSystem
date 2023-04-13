@@ -22,14 +22,9 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       break;
     case CC_E://4
       rtl_get_ZF(dest);
+      printf("with e here\n");
       break;
     case CC_BE://6
-    /*
-      rtl_get_CF(&t0);
-      rtl_get_ZF(&t1);
-      rtl_or(dest,&t0,&t1);
-      break;
-      */
       assert(dest!=&t0);
       rtl_get_CF(dest);
       rtl_get_ZF(&t0);
@@ -39,26 +34,12 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       rtl_get_SF(dest);
       break;
     case CC_L://12
-    /*
-      rtl_get_SF(&t0);
-      rtl_get_OF(&t1);
-      rtl_xor(dest,&t0,&t1);
-      break;
-      */
       assert(dest!=&t0);
       rtl_get_SF(dest);
       rtl_get_OF(&t0);
       rtl_xor(dest,dest,&t0);//SF != OF
       break;
     case CC_LE://14
-    /*
-      rtl_get_ZF(&t0);
-      rtl_get_SF(&t1);
-      rtl_get_OF(&t2);
-      rtl_xor(&t3,&t1,&t2);
-      rtl_or(dest,&t0,&t3);
-      break;
-      */
       assert(dest!=&t0);
       rtl_get_SF(dest);
       rtl_get_OF(&t0);
