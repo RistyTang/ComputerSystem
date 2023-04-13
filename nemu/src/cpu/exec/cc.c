@@ -69,6 +69,7 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
     case CC_NE:
       rtl_get_ZF(&t0);
       rtl_eq0(dest,&t0);
+      printf("with ne here\n");
       break;
       
     default: panic("should not reach here");
