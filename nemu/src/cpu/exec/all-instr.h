@@ -46,3 +46,5 @@ make_EHelper(jcc);
 make_EHelper(jmp_rm);
 make_EHelper(lea);
 make_EHelper(nop);
+
+make_EHelper(pusha);
