@@ -41,14 +41,15 @@ make_EHelper(sub) {
 
 make_EHelper(cmp) {
   //TODO();
+  rtl_sub(&t3,&id_dest->val,&id_src->val);
   //eflags ZFSF
-  rtl_update_ZFSF(&t0,id_dest->width);
+  rtl_update_ZFSF(&t3,id_dest->width);
   //CF
-  rtl_sltu(&t1,&id_dest->val,&id_src->val);
+  rtl_sltu(&t1,&id_dest->val,&t3);
   rtl_set_CF(&t1);
   //OF
   rtl_xor(&t1,&id_dest->val,&id_src->val);
-  rtl_xor(&t2,&id_dest->val,&t0);
+  rtl_xor(&t2,&id_dest->val,&t3);
   rtl_and(&t0,&t1,&t2);
   rtl_msb(&t0,&t0,id_dest->width);
   rtl_set_OF(&t0);
