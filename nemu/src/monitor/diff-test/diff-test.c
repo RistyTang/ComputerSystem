@@ -157,6 +157,7 @@ void difftest_step(uint32_t eip) {
   if(r.esp!=cpu.esp||r.ebp!=cpu.ebp||r.esi!=cpu.edi||r.edi!=cpu.edi)
   {
     diff=true;
+    printf("wrong some\n");
   }
 
   if (diff) {
