@@ -46,11 +46,12 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       rtl_xor(&t3,&t1,&t2);//SF!=OF
       rtl_or(dest,&t0,&t3);//ZF=1
       break;
+      /*
     case CC_NE:
       rtl_get_ZF(&t0);
       rtl_eq0(dest,&t0);
       printf("with ne here\n");
-      break;
+      break;*/
       
     default: panic("should not reach here");
     case CC_P: panic("n86 does not have PF");
