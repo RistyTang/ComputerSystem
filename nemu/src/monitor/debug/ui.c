@@ -67,6 +67,7 @@ static int cmd_info(char *args) {//打印寄存器
    {
      printf("%s : %x \n",regsl[i],reg_l(i));
    }
+   printf("eip : %x \n",cpu.eip);
    printf("-----16bit regs-----\n");
     for(int i=0;i<8;i++)
     {
