@@ -22,7 +22,7 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       break;
     case CC_E://4
       rtl_get_ZF(dest);
-      printf("with e here\n");
+      //printf("with e here\n");
       break;
     case CC_BE://6
       assert(dest!=&t0);
