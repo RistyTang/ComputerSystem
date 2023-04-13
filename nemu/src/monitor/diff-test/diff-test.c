@@ -160,6 +160,7 @@ void difftest_step(uint32_t eip) {
     printf("r.ecx:%#x  ;  cpu.ecx:%#x\n",r.ecx,cpu.ecx);
     printf("r.edx:%#x  ;  cpu.edx:%#x\n",r.edx,cpu.edx);
   }
+  //printf("r.CF:%d : cpu.CF: %d",r.eflags.CF,cpu.eflags.CF);
   //printf("r.edx:%#x  ;  cpu.edx:%#x\n",r.edx,cpu.edx);
   if(r.esp!=cpu.esp || r.ebp!=cpu.ebp || r.esi!=cpu.esi || r.edi!=cpu.edi)
   {
