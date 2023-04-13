@@ -40,12 +40,11 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       rtl_xor(dest,dest,&t0);//SF != OF
       break;
     case CC_LE://14
-      assert(dest!=&t0);
-      rtl_get_SF(dest);
-      rtl_get_OF(&t0);
-      rtl_xor(dest,dest,&t0);
       rtl_get_ZF(&t0);
-      rtl_or(dest,dest,&t0);//ZF=1 || SF!=OF
+      rtl_get_SF(&t1);
+      rtl_get_OF(&t2);
+      rtl_xor(&t3,&t1,&t2);//SF!=OF
+      rtl_or(dest,&t0,&t3);//ZF=1
       break;
     case CC_NE:
       rtl_get_ZF(&t0);
