@@ -47,3 +47,5 @@ make_EHelper(jmp_rm);
 make_EHelper(lea);
 make_EHelper(nop);
 
+make_EHelper(cwtl);
+make_EHelper(call_rm);
