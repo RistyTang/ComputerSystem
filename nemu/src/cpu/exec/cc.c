@@ -25,10 +25,10 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       //printf("with e here\n");
       break;
     case CC_BE://6
-      assert(dest!=&t0);
-      rtl_get_CF(dest);
-      rtl_get_ZF(&t0);
-      rtl_or(dest,dest,&t0);
+      //assert(dest!=&t0);
+      rtl_get_CF(&t0);
+      rtl_get_ZF(&t1);
+      rtl_or(dest,&t0,&t1);
       break;
     case CC_S://8
       rtl_get_SF(dest);
