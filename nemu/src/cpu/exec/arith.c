@@ -21,9 +21,8 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
   //TODO();
-  /*
-  rtl_sub(&t0,&id_dest->val,&id_src->val);//dest - src
-  operand_write(id_dest,&t0);
+  rtl_sub(&t2,&id_dest->val,&id_src->val);//dest - src
+  operand_write(id_dest,&t2);
   //eflags
   //ZFSF
   rtl_update_ZFSF(&t0,id_dest->width);
@@ -36,7 +35,7 @@ make_EHelper(sub) {
   rtl_and(&t0,&t1,&t2);
   rtl_msb(&t0,&t0,id_dest->width);
   rtl_set_OF(&t0);
-  */
+ /*
   rtl_sub(&t2,&id_dest->val,&id_src->val);//dest - src
   rtl_update_ZFSF(&t2,id_dest->width);
   rtl_sltu(&t1,&id_dest->val,&id_src->val);
@@ -48,6 +47,7 @@ make_EHelper(sub) {
   rtl_set_OF(&t0);
 
   operand_write(id_dest,&t2);
+  */
 
   print_asm_template2(sub);
 }
