@@ -13,8 +13,21 @@ make_EHelper(push) {
 
 make_EHelper(pop) {
   //TODO();
-  rtl_pop(&t1);
-  operand_write(id_dest,&t1);
+  rtl_pop(&t0);
+  if(id_dest->type == OP_TYPE_REG)
+  {  
+    rtl_sr(id_dest->reg,id_dest->width,&t0);
+  }
+  else if(id_dest->type == OP_TYPE_MEM)
+  {  
+    rtl_sm(&id_dest->addr,id_dest->width,&t0);
+  }
+  else
+  {
+    assert(0);
+  }
+  
+  //operand_write(id_dest,&t0);
   print_asm_template1(pop);
 }
 
