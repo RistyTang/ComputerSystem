@@ -164,6 +164,10 @@ void difftest_step(uint32_t eip) {
   {
     diff=true;
     printf("wrong esp/ebp/esi/edi\n");
+    printf("r.esp:%#x  ;  cpu.esp:%#x\n",r.esp,cpu.esp);
+    printf("r.ebp:%#x  ;  cpu.ebp:%#x\n",r.ebp,cpu.ebp);
+    printf("r.esi:%#x  ;  cpu.esi:%#x\n",r.esi,cpu.esi);
+    printf("r.edi:%#x  ;  cpu.edi:%#x\n",r.edi,cpu.edi);
   }
 
   if (diff) {
