@@ -154,6 +154,11 @@ void difftest_step(uint32_t eip) {
   {
     diff=true;
     printf("wrong eip/eax/ebx/ecx/edx\n");
+    printf("r.eip:%#x  ;  cpu.eip:%#x\n",r.eip,cpu.eip);
+    printf("r.eax:%#x  ;  cpu.eax:%#x\n",r.eax,cpu.eax);
+    printf("r.ebx:%#x  ;  cpu.ebx:%#x\n",r.ebx,cpu.ebx);
+    printf("r.ecx:%#x  ;  cpu.ecx:%#x\n",r.ecx,cpu.ecx);
+    printf("r.edx:%#x  ;  cpu.edx:%#x\n",r.edx,cpu.edx);
   }
   if(r.esp!=cpu.esp || r.ebp!=cpu.ebp || r.esi!=cpu.esi || r.edi!=cpu.edi)
   {
