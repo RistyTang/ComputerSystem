@@ -23,8 +23,8 @@ make_EHelper(and) {
 
 make_EHelper(xor) {
   //TODO();
-  rtl_xor(&t0,&id_dest->val,&id_src->val);
-  operand_write(id_dest,&t0);
+  rtl_xor(&t1,&id_dest->val,&id_src->val);
+  operand_write(id_dest,&t1);
   //ZFSF
   rtl_update_ZFSF(&id_dest->val,id_dest->width);
   //CF,OF
