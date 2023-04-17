@@ -144,8 +144,27 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
   //TODO();
   //符号扩展，逻辑左移后算数右移。
+  /*
   rtl_shli(dest,src1,(4-width) * 8);
   rtl_sari(dest,dest,(4-width) * 8);
+  */
+  int32_t result = (int32_t)*src1;
+  switch (width)
+  {
+  case 1:
+    result <<= 24;
+    result >>= 24;
+    break;
+  case 2:
+    result <<= 16;
+    result >>= 16;
+    break;
+  case 4:
+    break;
+  default:
+    assert(0);
+  }
+  *dest=result;
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {

@@ -10,7 +10,7 @@ extern char _heap_start;
 extern char _heap_end;
 extern int main();
 
-_Area _heap = {
+_Area _heap = {//指示堆区的起始和末尾
   .start = &_heap_start,
   .end = &_heap_end,
 };
@@ -27,21 +27,21 @@ static void serial_init() {
 #endif
 }
 
-void _putc(char ch) {
+void _putc(char ch) {//输出一个字符
 #ifdef HAS_SERIAL
   while ((inb(SERIAL_PORT + 5) & 0x20) == 0);
   outb(SERIAL_PORT, ch);
 #endif
 }
 
-void _halt(int code) {
-  asm volatile(".byte 0xd6" : :"a"(code));
+void _halt(int code) {//结束程序运行
+  asm volatile(".byte 0xd6" : :"a"(code));//内联汇编语句，0xd6就是nemu-trap
 
   // should not reach here
   while (1);
 }
 
-void _trm_init() {
+void _trm_init() {//TRM相关的初始化
   serial_init();
   int ret = main();
   _halt(ret);
