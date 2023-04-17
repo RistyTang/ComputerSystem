@@ -77,6 +77,7 @@ static inline void load_img() {
   }
 
 #ifdef DIFF_TEST
+  //将客户程序拷贝一份到QEMU的虚拟内存中以便于做nemu和qemu输出对比
   gdb_memcpy_to_qemu(ENTRY_START, guest_to_host(ENTRY_START), size);
 #endif
 }
@@ -90,7 +91,7 @@ static inline void restart() {
   //memcpy(&cpu.eflags,&flagsinit,sizeof(cpu.eflags));
   cpu.eflags.value=0x2;
 #ifdef DIFF_TEST
-  init_qemu_reg();
+  init_qemu_reg();//把qemu的初始寄存器设置成nemu一样，以方便进行对比
 #endif
 }
 

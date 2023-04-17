@@ -37,13 +37,13 @@ static void timer_sig_handler(int signum) {
   Assert(ret == 0, "Can not set timer");
 }
 
-void device_update() {
+void device_update() {//设备模拟操作
   if (!device_update_flag) {
     return;
   }
   device_update_flag = false;
 
-  if (update_screen_flag) {
+  if (update_screen_flag) {//50Hz频率刷新
     update_screen();
     update_screen_flag = false;
   }
@@ -73,7 +73,7 @@ void sdl_clear_event_queue() {
   while (SDL_PollEvent(&event));
 }
 
-void init_device() {
+void init_device() {//对串口、时钟、键盘、VGA进行初始化
   init_serial();
   init_timer();
   init_vga();

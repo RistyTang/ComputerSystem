@@ -11,7 +11,7 @@ typedef struct {
   ioaddr_t low;
   ioaddr_t high;
   pio_callback_t callback;
-} PIO_t;
+} PIO_t;//记录端口io映射关系
 
 static PIO_t maps[NR_MAP];
 static int nr_map = 0;
@@ -26,7 +26,7 @@ static void pio_callback(ioaddr_t addr, int len, bool is_write) {
   }
 }
 
-/* device interface */
+/* device interface *///注册io映射关系
 void* add_pio_map(ioaddr_t addr, int len, pio_callback_t callback) {
   assert(nr_map < NR_MAP);
   assert(addr + len <= PORT_IO_SPACE_MAX);
@@ -34,7 +34,7 @@ void* add_pio_map(ioaddr_t addr, int len, pio_callback_t callback) {
   maps[nr_map].high = addr + len - 1;
   maps[nr_map].callback = callback;
   nr_map ++;
-  return pio_space + addr;
+  return pio_space + addr;//返回io映射关系的io映射空间首地址
 }
 
 

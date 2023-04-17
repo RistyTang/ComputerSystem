@@ -49,3 +49,7 @@ make_EHelper(nop);
 
 make_EHelper(cwtl);
 make_EHelper(call_rm);
+
+//pa2.3
+make_EHelper(in);
+make_EHelper(out);
