@@ -66,8 +66,7 @@ typedef struct {
   } eflags;
   */
   //实现标志寄存器
-  union 
-  {
+  union {
       struct{
       uint32_t CF:1;
       uint32_t   :1;
