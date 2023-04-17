@@ -205,16 +205,21 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
   //TODO();
   //取最高有效位
-  //rtl_shri(dest,src1,width*8-1);
-  //rtl_andi(dest,dest,0x1);
   *dest = *src1 >> (width*8 - 1) & 0x1;
 }
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   //TODO();
-  rtl_andi(&t0,result,(0xffffffffu >> (4 - width)*8 ));
-  rtl_eq0(&t0,&t0);
+  if(result == 0)
+  {
+    t0 = 1;
+  }
+  else
+  {
+    t0 = 0;
+  }
+  
   rtl_set_ZF(&t0);
 }
 
