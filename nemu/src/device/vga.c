@@ -5,6 +5,7 @@
 #include "device/mmio.h"
 #include <SDL2/SDL.h>
 
+//起始地址
 #define VMEM 0x40000
 
 #define SCREEN_H 300

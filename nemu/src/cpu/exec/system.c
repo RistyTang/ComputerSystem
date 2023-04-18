@@ -36,7 +36,10 @@ make_EHelper(int) {
 }
 
 make_EHelper(iret) {
-  TODO();
+  //TODO();
+  rtl_pop(&decoding.jmp_eip);
+  decoding.is_jmp=1;
+  cpu.esp += id_dest->val;
 
   print_asm("iret");
 }
@@ -46,8 +49,8 @@ void pio_write(ioaddr_t, int, uint32_t);
 
 make_EHelper(in) {
   //TODO();
-  //rtl_li(&t0,pio_read(id_src->val,id_dest->width));
-  t0=pio_read(id_src->val,id_dest->width);
+  rtl_li(&t0,pio_read(id_src->val,id_dest->width));
+  //t0=pio_read(id_src->val,id_dest->width);
   operand_write(id_dest,&t0);
 
   print_asm_template2(in);
