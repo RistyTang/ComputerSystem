@@ -22,10 +22,9 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       break;
     case CC_E://4
       rtl_get_ZF(dest);
-      //printf("with e here\n");
       break;
     case CC_BE://6
-      //assert(dest!=&t0);
+      assert(dest!=&t0);
       rtl_get_CF(&t0);
       rtl_get_ZF(&t1);
       rtl_or(dest,&t0,&t1);
@@ -40,19 +39,13 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       rtl_xor(dest,dest,&t0);//SF != OF
       break;
     case CC_LE://14
+      assert(dest!=&t0);
       rtl_get_ZF(&t0);
       rtl_get_SF(&t1);
       rtl_get_OF(&t2);
       rtl_xor(&t3,&t1,&t2);//SF!=OF
       rtl_or(dest,&t0,&t3);//ZF=1
       break;
-      /*
-    case CC_NE:
-      rtl_get_ZF(&t0);
-      rtl_eq0(dest,&t0);
-      printf("with ne here\n");
-      break;*/
-      
     default: panic("should not reach here");
     case CC_P: panic("n86 does not have PF");
   }

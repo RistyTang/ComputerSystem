@@ -54,3 +54,7 @@ make_EHelper(call_rm);
 make_EHelper(in);
 make_EHelper(out);
 make_EHelper(iret);
+make_EHelper(rol);
+make_EHelper(endbr);
+make_EHelper(int);
+make_EHelper(lidt);
