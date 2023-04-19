@@ -13,7 +13,8 @@ make_EHelper(push) {
 
 make_EHelper(pop) {
   //TODO();
-  rtl_pop(&t0);
+  rtl_pop(&t2);
+  /*
   if(id_dest->type == OP_TYPE_REG)
   {  
     rtl_sr(id_dest->reg,id_dest->width,&t0);
@@ -26,8 +27,9 @@ make_EHelper(pop) {
   {
     assert(0);
   }
+  */
   
-  //operand_write(id_dest,&t0);
+  operand_write(id_dest,&t2);
   print_asm_template1(pop);
 }
 
@@ -60,9 +62,12 @@ make_EHelper(cltd) {
   }
   else {
     //TODO();
+    /*
     rtl_lr_l(&t0,R_EAX);
     rtl_sari(&t0,&t0,31);
     rtl_sr_l(R_EDX,&t0);
+    */
+    rtl_sari(&cpu.edx,&cpu.eax,31);
   }
 
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");

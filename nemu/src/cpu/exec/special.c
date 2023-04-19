@@ -7,7 +7,7 @@ make_EHelper(nop) {
 
 make_EHelper(endbr) {
   instr_fetch(eip,id_src->width);
-  print_asm("endbr");
+  print_asm("endbr32");
 }
 
 make_EHelper(inv) {

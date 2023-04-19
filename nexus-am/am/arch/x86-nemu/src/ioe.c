@@ -34,7 +34,7 @@ void _draw_rect(const uint32_t *pixels, int x, int y, int w, int h) //绘制矩�
     fb[i] = i;
   }
   */
-  int temp = (w > _screen.width - x) ? _screen.width : w ;
+  int temp = (w > _screen.width - x) ? _screen.width - x : w ;
   int cp_bytes = sizeof(uint32_t) *temp;
   for (int i = 0; i < h && y + i <_screen.height; i++) 
   {

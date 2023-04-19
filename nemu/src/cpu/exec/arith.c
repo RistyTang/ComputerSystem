@@ -7,11 +7,10 @@ make_EHelper(add) {
   //eflags ZFSF
   rtl_update_ZFSF(&t2,id_dest->width);
   //CF
-  rtl_sltu(&t0,&t2,&id_dest->val);
+  rtl_sltu(&t0,&id_dest->val,&id_src->val);
   rtl_set_CF(&t0);
   //OF
-  rtl_xor(&t0,&id_dest->val,&id_src->val);
-  rtl_not(&t0);
+  rtl_xor(&t0,&id_src->val,&t2);
   rtl_xor(&t1,&id_dest->val,&t2);
   rtl_and(&t0,&t0,&t1);
   rtl_msb(&t0,&t0,id_dest->width);
@@ -39,16 +38,16 @@ make_EHelper(sub) {
 
 make_EHelper(cmp) {
   //TODO();
-  rtl_sub(&t3,&id_dest->val,&id_src->val);
+  rtl_sub(&t2,&id_dest->val,&id_src->val);
   //eflags ZFSF
-  rtl_update_ZFSF(&t3,id_dest->width);
+  rtl_update_ZFSF(&t2,id_dest->width);
   //CF
-  rtl_sltu(&t1,&id_dest->val,&t3);
-  rtl_set_CF(&t1);
+  rtl_sltu(&t0,&id_dest->val,&id_src->val);
+  rtl_set_CF(&t0);
   //OF
-  rtl_xor(&t1,&id_dest->val,&id_src->val);
-  rtl_xor(&t2,&id_dest->val,&t3);
-  rtl_and(&t0,&t1,&t2);
+  rtl_xor(&t0,&id_dest->val,&id_src->val);
+  rtl_xor(&t1,&id_dest->val,&t2);
+  rtl_and(&t0,&t0,&t1);
   rtl_msb(&t0,&t0,id_dest->width);
   rtl_set_OF(&t0);
 
@@ -57,27 +56,35 @@ make_EHelper(cmp) {
 
 make_EHelper(inc) {
   //TODO();
-  rtl_addi(&t3,&id_dest->val,1);
-  operand_write(id_dest,&t3);
+  rtl_addi(&t2,&id_dest->val,1);
+  operand_write(id_dest,&t2);
   //eflags ZFSF
-  rtl_update_ZFSF(&t3,id_dest->width);
+  rtl_update_ZFSF(&t2,id_dest->width);
   //OF
+  /*
   rtl_xor(&t2,&id_dest->val,&t3);
   rtl_msb(&t2,&t2,id_dest->width);
   rtl_set_OF(&t2);
+  */
+  rtl_eqi(&t0,&t2,0x80000000);
+  rtl_set_OF(&t0);
   print_asm_template1(inc);
 }
 
 make_EHelper(dec) {
   //TODO();
-  rtl_subi(&t3,&id_dest->val,1);
-  operand_write(id_dest,&t3);
+  rtl_subi(&t2,&id_dest->val,1);
+  operand_write(id_dest,&t2);
   //eflags ZFSF
-  rtl_update_ZFSF(&t3,id_dest->width);
+  rtl_update_ZFSF(&t2,id_dest->width);
   //OF
+  /*
   rtl_xor(&t2,&id_dest->val,&t3);
   rtl_msb(&t2,&t2,id_dest->width);
   rtl_set_OF(&t2);
+  */
+  rtl_eqi(&t0,&t2,0x7fffffff);
+  rtl_set_OF(&t0);
   print_asm_template1(dec);
 }
 
@@ -87,10 +94,10 @@ make_EHelper(neg) {
   operand_write(id_dest,&t2);
 
   //eflags
-  rtl_neq0(&t1,&id_dest->val);
-  rtl_set_CF(&t1);
-  rtl_eqi(&t2,&id_dest->val,0x80000000);
-  rtl_set_OF(&t2);
+  rtl_neq0(&t0,&id_dest->val);
+  rtl_set_CF(&t0);
+  rtl_eqi(&t0,&id_dest->val,0x80000000);
+  rtl_set_OF(&t0);
   rtl_update_ZFSF(&t2,id_dest->width);
   print_asm_template1(neg);
 }
