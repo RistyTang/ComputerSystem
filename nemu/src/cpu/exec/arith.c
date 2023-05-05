@@ -7,7 +7,7 @@ make_EHelper(add) {
   //eflags ZFSF
   rtl_update_ZFSF(&t2,id_dest->width);
   //CF
-  rtl_sltu(&t0,&id_dest->val,&id_src->val);
+  rtl_sltu(&t0,&t2,&id_dest->val);
   rtl_set_CF(&t0);
   //OF
   rtl_xor(&t0,&id_src->val,&t2);

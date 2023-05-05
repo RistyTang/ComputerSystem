@@ -131,13 +131,15 @@ make_rtl_setget_eflags(SF)
 static inline void rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
   // dest <- src1
   //TODO();
-  *dest=*src1;
+  //*dest=*src1;
+  rtl_addi(dest,src1,0);
 }
 
 static inline void rtl_not(rtlreg_t* dest) {
   // dest <- ~dest
   //TODO();
-  *dest=~(*dest);
+  //*dest=~(*dest);
+  rtl_xori(dest,dest,0xffffffff);
 }
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
@@ -145,9 +147,6 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   //TODO();
   //符号扩展，逻辑左移后算数右移。
   /*
-  rtl_shli(dest,src1,(4-width) * 8);
-  rtl_sari(dest,dest,(4-width) * 8);
-  */
   int32_t result = (int32_t)*src1;
   switch (width)
   {
@@ -165,6 +164,17 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
     assert(0);
   }
   *dest=result;
+  */
+  if(width==0)
+  {
+    rtl_mv(dest,src1);
+  }
+  else
+  {
+    rtl_shli(dest,src1,(4 - width) * 8);
+    rtl_sari(dest,dest,(4 - width) * 8);
+  }
+  
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
@@ -207,7 +217,9 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
   //TODO();
   //取最高有效位
-  *dest = *src1 >> (width*8 - 1) & 0x1;
+  //*dest = *src1 >> (width*8 - 1) & 0x1;
+  rtl_shri(dest,src1,width * 8 - 1);
+  rtl_andi(dest,dest,0x1);
 }
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
@@ -225,7 +237,7 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
  */
   rtl_andi(&t0,result,(0xffffffffu >> (4-width)*8));
   rtl_eq0(&t0,&t0);
- rtl_set_ZF(&t0);
+  rtl_set_ZF(&t0);
  
 }
 
