@@ -53,8 +53,12 @@ make_EHelper(call_rm);
 //pa2.3
 make_EHelper(in);
 make_EHelper(out);
-make_EHelper(iret);
 make_EHelper(rol);
 make_EHelper(endbr);
+
+//pa3.1
 make_EHelper(int);
 make_EHelper(lidt);
+make_EHelper(pusha);
+make_EHelper(popa);
+make_EHelper(iret);

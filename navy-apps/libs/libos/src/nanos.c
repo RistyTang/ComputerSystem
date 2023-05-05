@@ -13,6 +13,9 @@
 
 int _syscall_(int type, uintptr_t a0, uintptr_t a1, uintptr_t a2){
   int ret = -1;
+  //将系统调用参数依次放入eax-edx中，之后执行int 0x80手动触发一个特殊的异常
+  //操作系统捕捉此异常并且进行处理，处理结束后设置好返回值，返回到上述的内联汇编中
+  //内联汇编最终从eax取出返回值
   asm volatile("int $0x80": "=a"(ret): "a"(type), "b"(a0), "c"(a1), "d"(a2));
   return ret;
 }

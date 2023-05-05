@@ -90,6 +90,7 @@ static inline void restart() {
   //unsigned int flagsinit=0x2;
   //memcpy(&cpu.eflags,&flagsinit,sizeof(cpu.eflags));
   cpu.eflags.value=0x2;
+  cpu.cs=0x8;
 #ifdef DIFF_TEST
   init_qemu_reg();//把qemu的初始寄存器设置成nemu一样，以方便进行对比
 #endif
