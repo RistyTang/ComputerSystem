@@ -3,8 +3,8 @@
 typedef struct {
   char *name;
   size_t size;
-  off_t disk_offset;
-  off_t open_offset;//
+  off_t disk_offset;//文件在ramdisk中的偏移
+  off_t open_offset;//文件被打开之后的读写指针
 } Finfo;
 
 enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB, FD_EVENTS, FD_DISPINFO, FD_NORMAL};
@@ -23,13 +23,104 @@ static Finfo file_table[] __attribute__((used)) = {
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 extern void ramdisk_write(const void* buf,off_t offset,size_t len);
 extern void fb_write(const void* buf,off_t offset,size_t len);
+extern size_t events_read(void *buf, size_t len);
+extern void dispinfo_read(void *buf, off_t offset, size_t len);
+extern void ramdisk_read(void *buf, off_t offset, size_t len);
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
 }
 
+off_t fs_lseek(int fd,off_t offset,int whence)
+{
+  switch (whence)
+  {
+  case SEEK_SET:
+    file_table[fd].open_offset = offset;
+    break;
+  case SEEK_CUR:
+    file_table[fd].open_offset += offset;
+    break;
+  case SEEK_END:
+    file_table[fd].open_offset = file_table[fd].size + offset;
+    break;
+  default:
+    printf("wrong whence case %d\n",whence);
+    return -1;
+  }
+  return file_table[fd].open_offset;
+}
+
+size_t fs_filesz(int fd)//返回fd指向的文件大小
+{
+  assert(fd >= 0 && fd < NR_FILES);
+  return file_table[fd].size;
+}
+
+int fs_open(const char* filename,int flags,int mode)
+{
+  for(int i=0;i<NR_FILES;i++)
+  {
+    if(strcmp(filename,file_table[i].name) == 0)
+    {
+      Log("open No.%d file \" %s \" \n",i,filename);
+      return i;
+    }
+  }
+  //can't find
+  printf("can't find file %s\n",filename);
+  assert(0);
+  return -1;
+}
+
+
+ssize_t fs_read(int fd,uint8_t *buf,size_t len)
+{
+  assert(fd >= 0 && fd < NR_FILES);
+  //0~3已被分配，不能被读取;
+  if(fd < 3 || fd == FD_FB)//0 1 2 3
+  {
+    Log("args invalid : fd <=3\n");
+    return 0;
+  }
+  if(fd == FD_EVENTS)//4
+  {
+    return events_read(buf,len);
+  }
+  //剩余可读字节数
+  int n = fs_filesz(fd) - file_table[fd].open_offset;
+  if(n > len)
+  {
+    n = len;
+  }
+  if(fd == FD_DISPINFO)//5
+  {
+    dispinfo_read(buf,file_table[fd].open_offset,n);
+  }
+  else//使用ramdisk_read进行真正的读操作
+  {
+    ramdisk_read((void *)buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+  }
+  //设置新的读指针位置
+  off_t cur_open_offset = file_table[fd].open_offset + n;
+  if(cur_open_offset > file_table[fd].size)
+  {
+    cur_open_offset = file_table[fd].size;
+  }
+  file_table[fd].open_offset = cur_open_offset;
+  return n;
+  
+}
+
+int fs_close(int fd)
+{
+  assert(fd >= 0 && fd < NR_FILES);
+  return 0;
+}
+
 ssize_t fs_write(int fd,uint8_t *buf,size_t len)
 {
+  assert(fd >= 0 && fd < NR_FILES);
   //得到要操作的file指针
   Finfo *fp = &file_table[fd];
   ssize_t datalen = fp->size - fp->open_offset;
@@ -60,6 +151,5 @@ ssize_t fs_write(int fd,uint8_t *buf,size_t len)
   }
   fp->open_offset += writelen;
   return writelen;
-  
-  
 }
+
