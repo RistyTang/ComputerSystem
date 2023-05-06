@@ -6,7 +6,8 @@
 static inline uintptr_t sys_write_handle(int fd,uintptr_t buf,size_t len)
 {
 
-  //return fs_write(fd,(uint8_t *)buf,len);
+  return fs_write(fd,(uint8_t *)buf,len);
+  /*
   if(fd == 1 || fd == 2)
   {
     char c;
@@ -21,7 +22,7 @@ static inline uintptr_t sys_write_handle(int fd,uintptr_t buf,size_t len)
   {
     return -1;
   }
-  
+  */
 }
 
 _RegSet* do_syscall(_RegSet *r) {

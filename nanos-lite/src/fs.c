@@ -30,10 +30,8 @@ void init_fs() {
 
 ssize_t fs_write(int fd,uint8_t *buf,size_t len)
 {
-  /*
   //得到要操作的file指针
   Finfo *fp = &file_table[fd];
-
   ssize_t datalen = fp->size - fp->open_offset;
   ssize_t writelen = datalen < len ? datalen : len;
   //为1或者2时将buf首地址，len长度字节输出
@@ -62,20 +60,6 @@ ssize_t fs_write(int fd,uint8_t *buf,size_t len)
   }
   fp->open_offset += writelen;
   return writelen;
-  */
-  if(fd == 1 || fd == 2)
-  {
-    char c;
-    for(int i=0;i<len;i++)
-    {
-      memcpy(&c,(void *)buf+i,1);
-      _putc(c);
-    }
-    return len;
-  }
-  else
-  {
-    return -1;
-  }
+  
   
 }
