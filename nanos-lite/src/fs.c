@@ -11,12 +11,12 @@ enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB, FD_EVENTS, FD_DISPINFO, FD_NORMAL};
 
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
-  {"stdin (note that this is not the actual stdin)", 0, 0,0},
-  {"stdout (note that this is not the actual stdout)", 0, 0,0},
-  {"stderr (note that this is not the actual stderr)", 0, 0,0},
-  [FD_FB] = {"/dev/fb", 0, 0,0},
-  [FD_EVENTS] = {"/dev/events", 0, 0,0},
-  [FD_DISPINFO] = {"/proc/dispinfo", 128, 0,0},
+  {"stdin (note that this is not the actual stdin)", 0, 0},
+  {"stdout (note that this is not the actual stdout)", 0, 0},
+  {"stderr (note that this is not the actual stderr)", 0, 0},
+  [FD_FB] = {"/dev/fb", 0, 0},
+  [FD_EVENTS] = {"/dev/events", 0, 0},
+  [FD_DISPINFO] = {"/proc/dispinfo", 128, 0},
 #include "files.h"
 };
 
@@ -26,6 +26,7 @@ extern void fb_write(const void* buf,off_t offset,size_t len);
 extern size_t events_read(void *buf, size_t len);
 extern void dispinfo_read(void *buf, off_t offset, size_t len);
 extern void ramdisk_read(void *buf, off_t offset, size_t len);
+extern size_t get_ramdisk_size();
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
@@ -131,6 +132,11 @@ ssize_t fs_read(int fd,void *buf,size_t len)
   if(n > len)
   {
     n = len;
+  }
+  int cur_offset = file_table[fd].disk_offset + file_table[fd].open_offset;
+  if(cur_offset + n >get_ramdisk_size())
+  {
+    n = get_ramdisk_size() - cur_offset;
   }
   ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
   set_open_offset(fd,file_table[fd].open_offset + n);
