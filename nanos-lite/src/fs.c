@@ -44,7 +44,6 @@ void set_open_offset(int fd,off_t n)
 
 off_t fs_lseek(int fd,off_t offset,int whence)
 {
-  //off_t cur_open_offset;
   switch (whence)
   {
   case SEEK_SET:
