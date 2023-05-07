@@ -21,11 +21,11 @@ static Finfo file_table[] __attribute__((used)) = {
 };
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
+extern void ramdisk_read(void *buf, off_t offset, size_t len);
 extern void ramdisk_write(const void* buf,off_t offset,size_t len);
 extern void fb_write(const void* buf,off_t offset,size_t len);
 extern size_t events_read(void *buf, size_t len);
 extern void dispinfo_read(void *buf, off_t offset, size_t len);
-extern void ramdisk_read(void *buf, off_t offset, size_t len);
 extern size_t get_ramdisk_size();
 
 void init_fs() {
@@ -145,13 +145,6 @@ ssize_t fs_read(int fd,void *buf,size_t len)
   {
     n = len;
   }
-  /*
-  int cur_offset = file_table[fd].disk_offset + file_table[fd].open_offset;
-  if(cur_offset + n >get_ramdisk_size())
-  {
-    n = get_ramdisk_size() - cur_offset;
-  }
-  */
   ramdisk_read(buf,get_disk_offset(fd) + get_open_offset(fd),n);
   set_open_offset(fd,get_open_offset(fd) + n);
   return n;
