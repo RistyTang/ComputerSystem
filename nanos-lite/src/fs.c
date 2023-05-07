@@ -43,6 +43,18 @@ void set_open_offset(int fd,off_t n)
   file_table[fd].open_offset = n;
 }
 
+off_t get_disk_offset(int fd)
+{
+  assert(fd >= 0 && fd < NR_FILES);
+  return file_table[fd].disk_offset;
+}
+
+off_t get_open_offset(int fd)
+{
+  assert(fd >= 0 && fd < NR_FILES);
+  return file_table[fd].open_offset;
+}
+
 off_t fs_lseek(int fd,off_t offset,int whence)
 {
   switch (whence)
@@ -128,7 +140,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     Log("args invalid : fd <3\n");
     return 0;
   }
-  int n = fs_filesz(fd) - file_table[fd].open_offset;
+  int n = fs_filesz(fd) - get_open_offset(fd);
   if(n > len)
   {
     n = len;
@@ -140,7 +152,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     n = get_ramdisk_size() - cur_offset;
   }
   */
-  //ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+  ramdisk_read(buf,get_disk_offset(fd) + get_open_offset(fd),n);
   set_open_offset(fd,file_table[fd].open_offset + n);
   return n;
 }
