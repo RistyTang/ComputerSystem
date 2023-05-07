@@ -35,8 +35,8 @@ int _write(int fd, void *buf, size_t count){
 
 void *_sbrk(intptr_t increment){
   //return (void *)-1;
-  extern int _end;
-  static uintptr_t program_break = (uintptr_t)&_end;
+  extern int end;
+  static uintptr_t program_break = (uintptr_t)&end;
   uintptr_t new_program_break = program_break + increment;
   int res = _syscall_(SYS_brk,new_program_break,0,0);
   //success
