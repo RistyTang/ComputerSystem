@@ -33,16 +33,27 @@ void init_fs() {
 
 off_t fs_lseek(int fd,off_t offset,int whence)
 {
+  off_t cur_open_offset;
   switch (whence)
   {
   case SEEK_SET:
     file_table[fd].open_offset = offset;
     break;
   case SEEK_CUR:
-    file_table[fd].open_offset += offset;
+    cur_open_offset = file_table[fd].open_offset + offset;
+    if(cur_open_offset >= file_table[fd].size)
+    {
+      cur_open_offset = file_table[fd].size;
+    }
+    file_table[fd].open_offset =cur_open_offset;
     break;
   case SEEK_END:
-    file_table[fd].open_offset = file_table[fd].size + offset;
+    cur_open_offset = file_table[fd].size + offset;
+    if(cur_open_offset >= file_table[fd].size)
+    {
+      cur_open_offset = file_table[fd].size;
+    }
+    file_table[fd].open_offset =cur_open_offset;
     break;
   default:
     printf("wrong whence case %d\n",whence);
@@ -99,7 +110,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
   }
   else//使用ramdisk_read进行真正的读操作
   {
-    ramdisk_read((void *)buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+    ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
   }
   //设置新的读指针位置
   off_t cur_open_offset = file_table[fd].open_offset + n;
@@ -121,6 +132,7 @@ int fs_close(int fd)
 ssize_t fs_write(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
+  /*
   //得到要操作的file指针
   Finfo *fp = &file_table[fd];
   ssize_t datalen = fp->size - fp->open_offset;
@@ -151,5 +163,33 @@ ssize_t fs_write(int fd,void *buf,size_t len)
   }
   fp->open_offset += writelen;
   return writelen;
+  */
+  if(fd < 3 || fd == FD_DISPINFO)
+  {
+    printf("wrong fd in write : fd < 3\n");
+    return -1;
+  }
+  int n = file_table[fd].size - file_table[fd].open_offset;
+  if(n > len)
+  {
+    n = len ;
+  }
+  if(fd == FD_FB)
+  {
+    fb_write(buf,file_table[fd].open_offset,n);
+  }
+  else
+  {
+    ramdisk_write(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+  }
+  //设置新的读指针位置
+  off_t cur_open_offset = file_table[fd].open_offset + n;
+  if(cur_open_offset > file_table[fd].size)
+  {
+    cur_open_offset = file_table[fd].size;
+  }
+  file_table[fd].open_offset = cur_open_offset;
+  return n;
+  
 }
 
