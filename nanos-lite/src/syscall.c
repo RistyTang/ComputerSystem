@@ -3,11 +3,9 @@
 #include "fs.h"
 
 //static inline防篡改
-static inline uintptr_t sys_write_handle(int fd,uintptr_t buf,size_t len)
+static inline int sys_write_handle(int fd,void* buf,size_t len)
 {
-
-  return fs_write(fd,(uint8_t *)buf,len);
-  /*
+  //return fs_write(fd,(uint8_t *)buf,len);
   if(fd == 1 || fd == 2)
   {
     char c;
@@ -18,11 +16,12 @@ static inline uintptr_t sys_write_handle(int fd,uintptr_t buf,size_t len)
     }
     return len;
   }
-  else
+  if(fd >= 3)
   {
-    return -1;
+    return fs_write(fd,buf,len);
   }
-  */
+  Log("Wrong fd : fd <= 0\n");
+  return -1;
   
 }
 
@@ -61,7 +60,7 @@ _RegSet* do_syscall(_RegSet *r) {
       _halt(a[1]);
       break;
     case SYS_write:
-      SYSCALL_ARG1(r) = sys_write_handle(a[1],(uintptr_t)a[2],a[3]);
+      SYSCALL_ARG1(r) = sys_write_handle(a[1],(void*)a[2],a[3]);
       break;
     case SYS_brk:
       SYSCALL_ARG1(r) = sys_brk_handle(a[1]);
