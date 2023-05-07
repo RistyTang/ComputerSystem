@@ -140,10 +140,10 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     Log("args invalid : fd <3\n");
     return 0;
   }
-  int n = fs_filesz(fd) - get_open_offset(fd);
-  if(len > n)
+  int n = fs_filesz(fd) - get_open_offset(fd) - 1;
+  if(n > len)
   {
-    len = n;
+    n = len;
   }
   /*
   int cur_offset = file_table[fd].disk_offset + file_table[fd].open_offset;
@@ -152,9 +152,9 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     n = get_ramdisk_size() - cur_offset;
   }
   */
-  ramdisk_read(buf,get_disk_offset(fd) + get_open_offset(fd),len);
-  set_open_offset(fd,file_table[fd].open_offset + len);
-  return len;
+  ramdisk_read(buf,get_disk_offset(fd) + get_open_offset(fd),n);
+  set_open_offset(fd,file_table[fd].open_offset + n);
+  return n;
 }
 
 int fs_close(int fd)
