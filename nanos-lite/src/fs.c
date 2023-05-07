@@ -140,7 +140,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     Log("args invalid : fd <3\n");
     return 0;
   }
-  int n = fs_filesz(fd) - get_open_offset(fd) - 1;
+  int n = fs_filesz(fd) - get_open_offset(fd);
   if(n > len)
   {
     n = len;
