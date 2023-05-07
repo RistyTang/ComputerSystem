@@ -29,7 +29,7 @@ int sys_brk_handle(int addr)
   return 0;
 }
 
-uintptr_t sys_open_handle(const char* pathname)
+int sys_open_handle(const char* pathname)
 {
   return fs_open(pathname,0,0);
 }
@@ -68,7 +68,7 @@ _RegSet* do_syscall(_RegSet *r) {
       SYSCALL_ARG1(r) = sys_open_handle((char*)a[1]);
       break;
     case SYS_read:
-      SYSCALL_ARG1(r) = fs_read(a[1],(uint8_t*)a[2],a[3]);
+      SYSCALL_ARG1(r) = fs_read(a[1],(void*)a[2],a[3]);
       break;
     case SYS_close:
       SYSCALL_ARG1(r) = fs_close(a[1]);

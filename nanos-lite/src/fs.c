@@ -74,7 +74,7 @@ int fs_open(const char* filename,int flags,int mode)
 }
 
 
-ssize_t fs_read(int fd,uint8_t *buf,size_t len)
+ssize_t fs_read(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
   //0~3已被分配，不能被读取;
@@ -118,7 +118,7 @@ int fs_close(int fd)
   return 0;
 }
 
-ssize_t fs_write(int fd,uint8_t *buf,size_t len)
+ssize_t fs_write(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
   //得到要操作的file指针
