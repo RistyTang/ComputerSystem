@@ -133,12 +133,14 @@ ssize_t fs_read(int fd,void *buf,size_t len)
   {
     n = len;
   }
+  /*
   int cur_offset = file_table[fd].disk_offset + file_table[fd].open_offset;
   if(cur_offset + n >get_ramdisk_size())
   {
     n = get_ramdisk_size() - cur_offset;
   }
-  ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+  */
+  //ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
   set_open_offset(fd,file_table[fd].open_offset + n);
   return n;
 }
