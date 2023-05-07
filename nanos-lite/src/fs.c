@@ -101,45 +101,12 @@ int fs_open(const char* filename,int flags,int mode)
 ssize_t fs_read(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
-  /*
-  //0~3已被分配，不能被读取;
-  if(fd < 3 || fd == FD_FB)//0 1 2 3
-  {
-    Log("args invalid : fd <=3\n");
-    return 0;
-  }
-  if(fd == FD_EVENTS)//4
-  {
-    return events_read(buf,len);
-  }
-  //剩余可读字节数
-  int n = fs_filesz(fd) - file_table[fd].open_offset;
-  if(n > len)
-  {
-    n = len;
-  }
-  if(fd == FD_DISPINFO)//5
-  {
-    dispinfo_read(buf,file_table[fd].open_offset,n);
-  }
-  else//使用ramdisk_read进行真正的读操作
-  {
-    ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
-  }
-  //设置新的读指针位置
-  off_t cur_open_offset = file_table[fd].open_offset + n;
-  if(cur_open_offset > file_table[fd].size)
-  {
-    cur_open_offset = file_table[fd].size;
-  }
-  file_table[fd].open_offset = cur_open_offset;
-  return n;
-  */
   if(fd < 3)
   {
     Log("args invalid : fd <3\n");
     return 0;
   }
+  //可读字节数
   int n = fs_filesz(fd) - get_open_offset(fd);
   if(n > len)
   {
