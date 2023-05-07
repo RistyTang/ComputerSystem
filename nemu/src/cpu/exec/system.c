@@ -66,8 +66,9 @@ make_EHelper(int) {
 make_EHelper(iret) {
   //TODO();
   rtl_pop(&cpu.eip);
-  rtl_pop(&t0);
-  cpu.cs=(uint32_t)t0;
+  //rtl_pop(&t0);
+  //cpu.cs=(uint32_t)t0;
+  rtl_pop((rtlreg_t*)&cpu.cs);
   rtl_pop(&t0);
   memcpy(&cpu.eflags,&t0,sizeof(cpu.eflags));
 
