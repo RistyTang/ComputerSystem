@@ -39,6 +39,11 @@ int sys_lseek_handle(int fd,off_t offset,int whence)
   return fs_lseek(fd,offset,whence);
 }
 
+int sys_read_handle(int fd,void* buf,size_t len)
+{
+  return fs_read(fd,buf,len);
+}
+
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
   a[0] = SYSCALL_ARG1(r);
@@ -68,7 +73,7 @@ _RegSet* do_syscall(_RegSet *r) {
       SYSCALL_ARG1(r) = sys_open_handle((char*)a[1]);
       break;
     case SYS_read:
-      SYSCALL_ARG1(r) = fs_read(a[1],(void*)a[2],a[3]);
+      SYSCALL_ARG1(r) = sys_read_handle(a[1],(void*)a[2],a[3]);
       break;
     case SYS_close:
       SYSCALL_ARG1(r) = fs_close(a[1]);

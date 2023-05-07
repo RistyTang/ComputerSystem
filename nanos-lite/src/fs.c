@@ -48,25 +48,12 @@ off_t fs_lseek(int fd,off_t offset,int whence)
   switch (whence)
   {
   case SEEK_SET:
-    //file_table[fd].open_offset = offset;
     set_open_offset(fd,offset);
     break;
   case SEEK_CUR:
-    /*cur_open_offset = file_table[fd].open_offset + offset;
-    if(cur_open_offset >= file_table[fd].size)
-    {
-      cur_open_offset = file_table[fd].size;
-    }
-    file_table[fd].open_offset =cur_open_offset;*/
     set_open_offset(fd,offset + file_table[fd].open_offset);
     break;
   case SEEK_END:
-    /*cur_open_offset = file_table[fd].size + offset;
-    if(cur_open_offset >= file_table[fd].size)
-    {
-      cur_open_offset = file_table[fd].size;
-    }
-    file_table[fd].open_offset =cur_open_offset;*/
     set_open_offset(fd,file_table[fd].size + offset);
     break;
   default:
@@ -147,12 +134,6 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     n = len;
   }
   ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
-  /*off_t cur_open_offset = file_table[fd].open_offset + n;
-  if(cur_open_offset > file_table[fd].size)
-  {
-    cur_open_offset = file_table[fd].size;
-  }
-  file_table[fd].open_offset = cur_open_offset;*/
   set_open_offset(fd,file_table[fd].open_offset + n);
   return n;
 }
@@ -237,12 +218,6 @@ ssize_t fs_write(int fd,void *buf,size_t len)
     n = len;
   }
   ramdisk_write(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
-  /*off_t cur_open_offset = file_table[fd].open_offset + n;
-  if(cur_open_offset > file_table[fd].size)
-  {
-    cur_open_offset = file_table[fd].size;
-  }
-  file_table[fd].open_offset = cur_open_offset;*/
   set_open_offset(fd,file_table[fd].open_offset + n);
   return n;
   
