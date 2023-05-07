@@ -31,29 +31,43 @@ void init_fs() {
   // TODO: initialize the size of /dev/fb
 }
 
+void set_open_offset(int fd,off_t n)
+{
+  assert(fd >= 0 && fd < NR_FILES);
+  assert(n >= 0);
+  if(n > file_table[fd].size)
+  {
+    n = file_table[fd].size;
+  }
+  file_table[fd].open_offset = n;
+}
+
 off_t fs_lseek(int fd,off_t offset,int whence)
 {
-  off_t cur_open_offset;
+  //off_t cur_open_offset;
   switch (whence)
   {
   case SEEK_SET:
-    file_table[fd].open_offset = offset;
+    //file_table[fd].open_offset = offset;
+    set_open_offset(fd,offset);
     break;
   case SEEK_CUR:
-    cur_open_offset = file_table[fd].open_offset + offset;
+    /*cur_open_offset = file_table[fd].open_offset + offset;
     if(cur_open_offset >= file_table[fd].size)
     {
       cur_open_offset = file_table[fd].size;
     }
-    file_table[fd].open_offset =cur_open_offset;
+    file_table[fd].open_offset =cur_open_offset;*/
+    set_open_offset(fd,offset + file_table[fd].open_offset);
     break;
   case SEEK_END:
-    cur_open_offset = file_table[fd].size + offset;
+    /*cur_open_offset = file_table[fd].size + offset;
     if(cur_open_offset >= file_table[fd].size)
     {
       cur_open_offset = file_table[fd].size;
     }
-    file_table[fd].open_offset =cur_open_offset;
+    file_table[fd].open_offset =cur_open_offset;*/
+    set_open_offset(fd,file_table[fd].size + offset);
     break;
   default:
     printf("wrong whence case %d\n",whence);
