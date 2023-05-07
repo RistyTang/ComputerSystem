@@ -2,8 +2,7 @@
 #include "syscall.h"
 #include "fs.h"
 
-//static inline防篡改
-static inline int sys_write_handle(int fd,void* buf,size_t len)
+int sys_write_handle(int fd,void* buf,size_t len)
 {
   //return fs_write(fd,(uint8_t *)buf,len);
   if(fd == 1 || fd == 2)
@@ -25,20 +24,17 @@ static inline int sys_write_handle(int fd,void* buf,size_t len)
   
 }
 
-//static inline防篡改
-static inline int sys_brk_handle(int addr)
+int sys_brk_handle(int addr)
 {
   return 0;
 }
 
-//static inline防篡改
-static inline uintptr_t sys_open_handle(const char* pathname)
+uintptr_t sys_open_handle(const char* pathname)
 {
   return fs_open(pathname,0,0);
 }
 
-//static inline防篡改
-static inline int sys_lseek_handle(int fd,off_t offset,int whence)
+int sys_lseek_handle(int fd,off_t offset,int whence)
 {
   return fs_lseek(fd,offset,whence);
 }
