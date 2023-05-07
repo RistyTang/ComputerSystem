@@ -31,7 +31,7 @@ int main() {
 
   init_fs();
 
-  uint32_t entry = loader(NULL, "/bin/bmp");//加载用户程序，返回程序入口地址
+  uint32_t entry = loader(NULL, "/bin/text");//加载用户程序，返回程序入口地址
   ((void (*)(void))entry)();
 
   panic("Should not reach here");
