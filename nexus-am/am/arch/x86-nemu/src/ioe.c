@@ -54,9 +54,3 @@ int _read_key() {//返回按键的键盘码，无按键则返回keynone
   }
   return _KEY_NONE;
 }
-
-void getScreen(int* p_width,int* p_height)
-{
-  *p_width =_screen.width;
-  *p_height = _screen.height;
-}

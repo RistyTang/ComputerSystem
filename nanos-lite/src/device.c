@@ -43,21 +43,15 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
   strncpy(buf,dispinfo + offset,len);
 }
 
-extern void getScreen(int* p_width,int* p_height);
+
 void fb_write(const void *buf, off_t offset, size_t len) {
   
   assert(offset % 4 == 0 && len % 4 == 0);
+  extern _screen;
   int index, screen_x,screen_y;
-  int width = 0;
-  int height = 0;
-  getScreen(&width,&height);
-  for(int i = 0;i < len / 4;i++)
-  {
-    index = offset / 4 + i;
-    screen_y = index / width;
-    screen_x = index % width;
-    _draw_rect(buf + i * 4,screen_x,screen_y,1,1);
-  }
+  int width = _screen.width;
+  int height = _screen.height;
+  
   
 }
 

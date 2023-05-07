@@ -19,7 +19,7 @@ int sys_write_handle(int fd,void* buf,size_t len)
   {
     return fs_write(fd,buf,len);
   }
-  Log("Wrong fd : fd <= 0\n");
+  Log("Wrong fd : %d \n",fd);
   return -1;
   
 }
