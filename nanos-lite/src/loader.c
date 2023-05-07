@@ -8,7 +8,7 @@ extern size_t get_ramdisk_size();
 uintptr_t loader(_Protect *as, const char *filename) 
 {
   //TODO();
-  
+  printf("wrong in open \n");
   int fd = fs_open(filename,0,0);
   printf("wrong in open \n");
   Log("filename = %s,fd = %d",filename,fd);
