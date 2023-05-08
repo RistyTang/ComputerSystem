@@ -92,7 +92,7 @@ int fs_open(const char* filename,int flags,int mode)
 ssize_t fs_read(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
-  if(fd < 3)
+  if(fd < 3 || fd == FD_FB)
   {
     Log("args invalid : fd <3\n");
     return 0;
