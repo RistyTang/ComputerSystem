@@ -135,8 +135,8 @@ static void get_display_info() {
     *(delim = strchr(buf, ':')) = '\0';
     sscanf(buf, "%s", key);
     sscanf(delim + 1, "%s", value);
-    printf("value:%d\n",value);
-    printf("key:%s\n",key);
+    //printf("value:%d\n",value);
+    //printf("key:%s\n",key);
     if (strcmp(key, "WIDTH") == 0) sscanf(value, "%d", &screen_w);
     if (strcmp(key, "HEIGHT") == 0) sscanf(value, "%d", &screen_h);
   }
