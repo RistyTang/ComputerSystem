@@ -48,11 +48,9 @@ void dispinfo_read(void *buf, off_t offset, size_t len)
 void fb_write(const void *buf, off_t offset, size_t len) {
   
   assert(offset % 4 == 0 && len % 4 == 0);
-  //extern _screen;
   int index, screen_x,screen_y1,screen_y2;
   //get screen size
   int width = _screen.width;
-  //int height = _screen.height;
   index = offset / 4;
   screen_y1 = index / width;
   screen_x = index % width;
@@ -86,7 +84,6 @@ void init_device() {
 
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
-  //extern _screen;
   sprintf(dispinfo,"width : %d , height : %d\n",_screen.width,_screen.height);
 
 }
