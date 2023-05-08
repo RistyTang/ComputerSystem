@@ -103,7 +103,15 @@ ssize_t fs_read(int fd,void *buf,size_t len)
   {
     n = len;
   }
-  ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+  if(fd == FD_DISPINFO)
+  {
+    dispinfo_read(buf,file_table[fd].open_offset,n);
+  }
+  else
+  {
+    ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+  }
+  
   set_open_offset(fd,file_table[fd].open_offset + n);
   return n;
 }
