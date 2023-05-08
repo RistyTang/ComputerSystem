@@ -129,6 +129,7 @@ ssize_t fs_write(int fd,void *buf,size_t len)
   }
   if(fd == FD_FB)
   {
+    Log("fb_write()");
     fb_write(buf,file_table[fd].open_offset,n);
   }
   else
