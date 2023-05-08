@@ -45,8 +45,9 @@ void dispinfo_read(void *buf, off_t offset, size_t len)
 }
 
 
-void fb_write(const void *buf, off_t offset, size_t len) {
-  
+void fb_write(const void *buf, off_t offset, size_t len) 
+{
+  Log("fb_write()");
   assert(offset % 4 == 0 && len % 4 == 0);
   int index, screen_x,screen_y1,screen_y2;
   //get screen size
