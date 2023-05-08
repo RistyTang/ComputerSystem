@@ -10,18 +10,19 @@ static const char *keyname[256] __attribute__((used)) = {
   _KEYS(NAME)
 };
 
-size_t events_read(void *buf, size_t len) {
+size_t events_read(void *buf, size_t len) 
+{
   char buffer[40];
   int key = _read_key();
-  int down = 0;
+  bool down = false;
   if(key & 0x8000 )
   {
     key ^= 0x8000;
-    down = 1;
+    down = true;
   }
   if(key != _KEY_NONE)
   {
-    sprintf(buffer,"%s  %s \n",down ? "keydown" : "keyup", keyname[key]);
+    sprintf(buffer,"%s  %s \n",down ? "kd" : "ku", keyname[key]);
   }
   else
   {
@@ -32,8 +33,8 @@ size_t events_read(void *buf, size_t len) {
     strncpy((char*)buf,buffer,strlen(buffer));
     return strlen(buffer);
   }
-  Log("strlen(event) > len, return 0 \n");
-
+  Log("the length of event > len.\n");
+  
   return 0;
 }
 
