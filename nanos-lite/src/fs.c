@@ -46,18 +46,6 @@ void set_open_offset(int fd,off_t n)
   file_table[fd].open_offset = n;
 }
 
-off_t get_disk_offset(int fd)
-{
-  assert(fd >= 0 && fd < NR_FILES);
-  return file_table[fd].disk_offset;
-}
-
-off_t get_open_offset(int fd)
-{
-  assert(fd >= 0 && fd < NR_FILES);
-  return file_table[fd].open_offset;
-}
-
 off_t fs_lseek(int fd,off_t offset,int whence)
 {
   switch (whence)
