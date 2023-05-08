@@ -134,37 +134,6 @@ int fs_close(int fd)
 ssize_t fs_write(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
-  /*
-  //Log("write begin\n");
-  if(fd < 3 )
-  {
-    printf("wrong fd in write : fd < 3\n");
-    return -1;
-  }
-  int n = file_table[fd].size - file_table[fd].open_offset;
-  if(n > len)
-  {
-    n = len ;
-  }
-  if(fd == FD_FB)
-  {
-    //Log("fb_write()");
-    fb_write(buf,file_table[fd].open_offset,n);
-  }
-  else
-  {
-    ramdisk_write(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
-  }
-  //设置新的读指针位置
-  off_t cur_open_offset = file_table[fd].open_offset + n;
-  if(cur_open_offset > file_table[fd].size)
-  {
-    cur_open_offset = file_table[fd].size;
-  }
-  file_table[fd].open_offset = cur_open_offset;
-  return n;
-  */
-  
   int n = fs_filesz(fd) - file_table[fd].open_offset;
   if(n > len)
   {
@@ -173,6 +142,9 @@ ssize_t fs_write(int fd,void *buf,size_t len)
   char c;
   switch (fd)
   {
+  case FD_STDIN:
+    Log("this is not the actual stdin\n");
+    return 0;
   case FD_STDOUT://为1或者2时将buf首地址，len长度字节输出
   case FD_STDERR:
     for(int i=0;i<len;i++)
