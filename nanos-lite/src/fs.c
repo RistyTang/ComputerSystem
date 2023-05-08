@@ -78,7 +78,7 @@ int fs_open(const char* filename,int flags,int mode)
   {
     if(strcmp(filename,file_table[i].name) == 0)
     {
-      Log("open No.%d file \" %s \" \n",i,filename);
+      Log("open No.%d file \"%s \" \n",i,filename);
       return i;
     }
   }
