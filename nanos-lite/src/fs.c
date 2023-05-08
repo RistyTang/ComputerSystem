@@ -117,7 +117,7 @@ int fs_close(int fd)
 ssize_t fs_write(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
-  Log("write begin\n");
+  //Log("write begin\n");
   if(fd < 3 || fd == FD_DISPINFO)
   {
     printf("wrong fd in write : fd < 3\n");
@@ -130,7 +130,7 @@ ssize_t fs_write(int fd,void *buf,size_t len)
   }
   if(fd == FD_FB)
   {
-    Log("fb_write()");
+    //Log("fb_write()");
     fb_write(buf,file_table[fd].open_offset,n);
   }
   else
