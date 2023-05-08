@@ -39,7 +39,8 @@ size_t events_read(void *buf, size_t len) {
 
 static char dispinfo[128] __attribute__((used));
 
-void dispinfo_read(void *buf, off_t offset, size_t len) {
+void dispinfo_read(void *buf, off_t offset, size_t len) 
+{
   strncpy(buf,dispinfo + offset,len);
 }
 
@@ -47,12 +48,37 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 void fb_write(const void *buf, off_t offset, size_t len) {
   
   assert(offset % 4 == 0 && len % 4 == 0);
-  extern _screen;
-  int index, screen_x,screen_y;
+  //extern _screen;
+  int index, screen_x,screen_y1,screen_y2;
+  //get screen size
   int width = _screen.width;
-  int height = _screen.height;
-  
-  
+  //int height = _screen.height;
+  index = offset / 4;
+  screen_y1 = index / width;
+  screen_x = index % width;
+
+  index = (offset + len) / 4;
+  screen_y2 = index / width;
+
+  assert(screen_y2 >= screen_y1);
+  if(screen_y2 == screen_y1)
+  {
+    _draw_rect(buf,screen_x,screen_y1,len / 4,1);
+    return;
+  }
+
+  int tempw = width - screen_x;
+  if(screen_y2 - screen_y1 == 1)
+  {
+    _draw_rect(buf,screen_x,screen_y1,tempw,1);
+    _draw_rect(buf + tempw * 4,0,screen_y2,len / 4 - tempw,1);
+    return;
+  }
+  _draw_rect(buf,screen_x,screen_y1,tempw,1);
+  int temph = screen_y2 - screen_y1 - 1;
+  _draw_rect(buf + tempw * 4,0,screen_y1 + 1,width,temph);
+  _draw_rect(buf + tempw * 4 + temph * width * 4,0,screen_y2,len / 4 - tempw - temph * width,1);
+
 }
 
 void init_device() {
@@ -60,4 +86,7 @@ void init_device() {
 
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
+  //extern _screen;
+  sprintf(dispinfo,"width : %d , height : %d\n",_screen.width,_screen.height);
+
 }

@@ -30,7 +30,7 @@ extern size_t get_ramdisk_size();
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  extern _screen;
+  //extern _screen;
   file_table[FD_FB].size = _screen.width * _screen.height *sizeof(u_int32_t);
   Log("/dev/fb initialized with size %d\n",fs_filesz(FD_FB));
 }
