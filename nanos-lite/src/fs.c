@@ -92,26 +92,35 @@ int fs_open(const char* filename,int flags,int mode)
 ssize_t fs_read(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
-  if(fd < 3 || fd == FD_FB)
-  {
-    Log("args invalid : fd <3\n");
-    return 0;
-  }
   //可读字节数
   int n = fs_filesz(fd) - file_table[fd].open_offset;
   if(n > len)
   {
     n = len;
   }
-  if(fd == FD_DISPINFO)
+  switch (fd)
   {
+  case FD_STDIN:
+    Log("this is not the actual stdin\n");
+    return 0;
+  case FD_STDOUT:
+    Log("this is not the actual stdout\n");
+    return 0;
+  case FD_STDERR:
+    Log("this is not the actual stderr\n");
+    return 0;
+  case FD_FB:
+    //should be fb_read()
+    return 0;
+  case FD_EVENTS:
+    return events_read(buf,len);
+  case FD_DISPINFO:
     dispinfo_read(buf,file_table[fd].open_offset,n);
-  }
-  else
-  {
+    break;
+  default:
     ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+    break;
   }
-  
   set_open_offset(fd,file_table[fd].open_offset + n);
   return n;
 }
