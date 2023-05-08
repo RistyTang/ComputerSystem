@@ -134,8 +134,9 @@ int fs_close(int fd)
 ssize_t fs_write(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
+  /*
   //Log("write begin\n");
-  if(fd < 3 /*|| fd == FD_DISPINFO*/)
+  if(fd < 3 )
   {
     printf("wrong fd in write : fd < 3\n");
     return -1;
@@ -162,7 +163,8 @@ ssize_t fs_write(int fd,void *buf,size_t len)
   }
   file_table[fd].open_offset = cur_open_offset;
   return n;
-  /*
+  */
+  
   int n = fs_filesz(fd) - file_table[fd].open_offset;
   if(n > len)
   {
@@ -187,7 +189,7 @@ ssize_t fs_write(int fd,void *buf,size_t len)
     break;
   }
   set_open_offset(fd,file_table[fd].open_offset + n);
-  return n;*/
+  return n;
   
 }
 
