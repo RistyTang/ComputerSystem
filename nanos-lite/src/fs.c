@@ -118,7 +118,7 @@ ssize_t fs_write(int fd,void *buf,size_t len)
 {
   assert(fd >= 0 && fd < NR_FILES);
   //Log("write begin\n");
-  if(fd < 3 || fd == FD_DISPINFO)
+  if(fd < 3 /*|| fd == FD_DISPINFO*/)
   {
     printf("wrong fd in write : fd < 3\n");
     return -1;
