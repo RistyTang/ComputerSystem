@@ -110,13 +110,13 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     return 0;
   }
   //可读字节数
-  int n = fs_filesz(fd) - get_open_offset(fd);
+  int n = fs_filesz(fd) - file_table[fd].open_offset;
   if(n > len)
   {
     n = len;
   }
-  ramdisk_read(buf,get_disk_offset(fd) + get_open_offset(fd),n);
-  set_open_offset(fd,get_open_offset(fd) + n);
+  ramdisk_read(buf,file_table[fd].disk_offset + file_table[fd].open_offset,n);
+  set_open_offset(fd,file_table[fd].open_offset + n);
   return n;
 }
 
@@ -199,8 +199,8 @@ ssize_t fs_write(int fd,void *buf,size_t len)
   {
     n = len;
   }
-  ramdisk_write(buf,get_disk_offset(fd)+get_open_offset(fd),n);
-  set_open_offset(fd,get_open_offset(fd) + n);
+  ramdisk_write(buf,file_table[fd].disk_offset+file_table[fd].open_offset,n);
+  set_open_offset(fd,file_table[fd].open_offset + n);
   return n;
   
 }
