@@ -83,7 +83,15 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
   if(PTE_ADDR(addr) != PTE_ADDR(addr + len - 1))
   {
     Log("data is out of bound");
-    assert(0);
+    //assert(0);
+    int num1 = 0x1000 - OFF(addr);
+    int num2 = len - num1;
+    paddr_t paddr1 = page_translate(addr,false);
+    paddr_t paddr2 = page_translate(addr + num1,false);
+    uint32_t bytes1 = paddr_read(paddr1,num1);
+    uint32_t bytes2 = paddr_read(paddr2,num2);
+    uint32_t result = bytes2 << (8 * num1) | bytes1;
+    return result;
   }
   else
   {
