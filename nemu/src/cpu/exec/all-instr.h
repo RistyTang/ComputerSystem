@@ -62,3 +62,6 @@ make_EHelper(lidt);
 make_EHelper(pusha);
 make_EHelper(popa);
 make_EHelper(iret);
+
+//pa4
+make_EHelper(mov_store_cr);

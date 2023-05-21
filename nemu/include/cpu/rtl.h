@@ -225,16 +225,6 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   //TODO();
-  /*
- if(*result == 0)
- {
-   t0=1;
- }
- else
- {
-   t0=0;
- }
- */
   rtl_andi(&t0,result,(0xffffffffu >> (4-width)*8));
   rtl_eq0(&t0,&t0);
   rtl_set_ZF(&t0);
@@ -252,6 +242,37 @@ static inline void rtl_update_SF(const rtlreg_t* result, int width) {
 static inline void rtl_update_ZFSF(const rtlreg_t* result, int width) {
   rtl_update_ZF(result, width);
   rtl_update_SF(result, width);
+}
+
+//pa4
+static inline void rtl_store_cr(int r,const rtlreg_t* src){
+  switch (r)
+  {
+  case 0:
+    cpu.CR0 = *src;
+    break;
+  case 3:
+    cpu.CR3 = *src;
+    break;
+  default:
+    Log("should not reach here in store cr0/cr3");
+    break;
+  }
+}
+
+static inline void rtl_load_cr(rtlreg_t* dest,int r){
+  switch (r)
+  {
+  case 0:
+    *dest = cpu.CR0;
+    break;
+  case 3:
+    *dest = cpu.CR3;
+    break;
+  default:
+    Log("should not reach here in load cr0/cr3");
+    break;
+  }
 }
 
 #endif
