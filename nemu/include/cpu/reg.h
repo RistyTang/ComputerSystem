@@ -67,6 +67,8 @@ typedef struct {
   } idtr;
   
   uint16_t cs;
+  uint32_t CR0;//特殊位置存储
+  uint32_t CR3;//页目录基址寄存器
   
 
 } CPU_state;
