@@ -82,6 +82,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
   //return paddr_read(addr, len);
   if(PTE_ADDR(addr) != PTE_ADDR(addr + len - 1))
   {
+    Log("data is out of bound");
     assert(0);
   }
   else
