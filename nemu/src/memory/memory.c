@@ -105,7 +105,18 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   //paddr_write(addr, len, data);
   if(PTE_ADDR(addr) != PTE_ADDR(addr + len - 1))
   {
-    assert(0);
+    Log("data is out of bound");
+    //assert(0);
+    int num1 = 0x1000 - OFF(addr);
+    int num2 = len - num1;
+    paddr_t paddr1 = page_translate(addr,true);
+    paddr_t paddr2 = page_translate(addr + num1,true);
+    uint32_t bytes1 = data & (~0u >> ((4 - num1) << 3));
+    uint32_t bytes2 = data >> ((4 - num2) << 3);
+
+    paddr_write(paddr1,num1,bytes1);
+    paddr_write(paddr2,num2,bytes2);
+    return ;
   }
   else
   {
