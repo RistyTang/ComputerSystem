@@ -88,7 +88,7 @@ static inline void restart() {
   cpu.eip = ENTRY_START;
   cpu.eflags.value=0x2;
   cpu.cs=0x8;
-  cpu.CR0=0x00000011;
+  cpu.CR0=0x60000011;
 #ifdef DIFF_TEST
   init_qemu_reg();//把qemu的初始寄存器设置成nemu一样，以方便进行对比
 #endif
