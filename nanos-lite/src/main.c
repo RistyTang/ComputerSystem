@@ -10,6 +10,7 @@ void init_device(void);
 void init_irq(void);
 void init_fs(void);
 uint32_t loader(_Protect *, const char *);
+void load_prog(const char *filename);
 
 int main() {
 #ifdef HAS_PTE
@@ -31,8 +32,9 @@ int main() {
 
   init_fs();
 
-  uint32_t entry = loader(NULL, "/bin/pal");//加载用户程序，返回程序入口地址
-  ((void (*)(void))entry)();
+  //uint32_t entry = loader(NULL, "/bin/pal");//加载用户程序，返回程序入口地址
+  //((void (*)(void))entry)();
+  load_prog("/bin/dummy");
 
   panic("Should not reach here");
 }
