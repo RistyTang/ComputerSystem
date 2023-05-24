@@ -120,7 +120,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   }
   else
   {
-    paddr_t paddr = page_translate(addr,false);
+    paddr_t paddr = page_translate(addr,true);
     paddr_write(paddr, len, data);
   }
 }
