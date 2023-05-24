@@ -32,7 +32,7 @@ uintptr_t loader(_Protect *as, const char *filename)
     va += PGSIZE;
   }
   fs_close(fd);
-  //Log("file closed successfully\n");
+  Log("file closed successfully\n");
   //ramdisk_read(DEFAULT_ENTRY,0,get_ramdisk_size());
   
 
