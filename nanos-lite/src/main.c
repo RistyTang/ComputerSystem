@@ -35,6 +35,7 @@ int main() {
   //uint32_t entry = loader(NULL, "/bin/dummy");//加载用户程序，返回程序入口地址
   //((void (*)(void))entry)();
   load_prog("/bin/dummy");
+  printf("reached here\n");
 
   panic("Should not reach here");
 }
