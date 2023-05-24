@@ -26,7 +26,9 @@ int sys_write_handle(int fd,void* buf,size_t len)
 
 int sys_brk_handle(int addr)
 {
-  return 0;
+  //return 0;
+  extern int mm_brk(uint32_t new_brk);
+  return mm_brk(addr); 
 }
 
 int sys_open_handle(const char* pathname)
