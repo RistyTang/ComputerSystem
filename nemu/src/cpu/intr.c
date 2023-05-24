@@ -11,9 +11,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   memcpy(&t1,&cpu.eflags,sizeof(cpu.eflags));
   rtl_li(&t0,t1);
   rtl_push(&t0);
-  //memcpy(&t1,&cpu.cs,sizeof(cpu.cs));
-  //rtl_li(&t0,t1);
-  //rtl_push(&t0);
+  cpu.eflags.IF = 0;//new insert
   rtl_push((rtlreg_t*)&cpu.cs);
   rtl_li(&t0,ret_addr);
   rtl_push(&t0);
@@ -32,4 +30,5 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
 }
 
 void dev_raise_intr() {
+  cpu.INTR = true;
 }
