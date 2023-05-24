@@ -25,11 +25,12 @@ uintptr_t loader(_Protect *as, const char *filename)
   {
     pa = new_page();
     _map(as,va,pa);
+    Log("mapped");
     fs_read(fd,pa,PGSIZE);
     va += PGSIZE;
   }
   fs_close(fd);
-  Log("file closed successfully\n");
+  //Log("file closed successfully\n");
   //ramdisk_read(DEFAULT_ENTRY,0,get_ramdisk_size());
   
 
