@@ -75,7 +75,7 @@ void _map(_Protect *p, void *va, void *pa) {
   //align
   PDE *pdebase = (PDE*) p->ptr;
   PTE *ptebase = NULL;
-  PDE *pde = pdebase + PDX(pa);
+  PDE *pde = pdebase + PDX(va);
   if(!(*pde & PTE_P))//not alloc
   {
     ptebase = (PTE*) (palloc_f());
