@@ -8,7 +8,11 @@ static _RegSet* do_event(_Event e, _RegSet* r)
     case _EVENT_SYSCALL:
       return do_syscall(r);
       break;
-    default: panic("Unhandled event ID = %d", e.event);
+    case _EVENT_TRAP:
+      Log("receive EVENT_TRAP");
+      break;
+    default: 
+      panic("Unhandled event ID = %d", e.event);
   }
 
   return NULL;
