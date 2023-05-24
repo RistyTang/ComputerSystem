@@ -29,8 +29,25 @@ _RegSet* schedule(_RegSet *prev) {
   {
     current->tf = prev;
   }
-  //current = &pcb[0];
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  current = &pcb[0];
+  const int times = 1000;
+  int curtime = 0;
+  if(current == &pcb[0])
+  {
+    curtime ++;
+  }
+  else
+  {
+    current = &pcb[0];
+  }
+  if(curtime == times)
+  {
+    current = &pcb[1];
+    curtime = 0;
+  }
+  
+
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   _switch(&current->as);
   return current->tf;
   //return NULL;
