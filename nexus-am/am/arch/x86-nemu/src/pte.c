@@ -66,6 +66,24 @@ void _switch(_Protect *p) {
 }
 
 void _map(_Protect *p, void *va, void *pa) {
+  //va -> pa
+  if(OFF(va) || OFF(pa))
+  {
+    //Log("page not aligned");
+    return;
+  }
+  //align
+  PDE *pdebase = (PDE*) p->ptr;
+  PTE *ptebase = NULL;
+  PDE *pde = pdebase + PDX(pa);
+  if(!(*pde & PTE_P))//not alloc
+  {
+    ptebase = (PTE*) (palloc_f());
+    *pde = (uintptr_t) ptebase | PTE_P;
+  }
+  ptebase = (PTE*) PTE_ADDR(*pde);
+  PTE *pte = ptebase + PTX(va);
+  *pte = (uintptr_t) pa | PTE_P;
 }
 
 void _unmap(_Protect *p, void *va) {
