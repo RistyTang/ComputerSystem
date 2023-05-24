@@ -17,6 +17,7 @@ void load_prog(const char *filename) {
   // TODO: remove the following three lines after you have implemented _umake()
   _switch(&pcb[i].as);
   current = &pcb[i];
+  printf("proc run to %x",entry);
   ((void (*)(void))entry)();//?
   _Area stack;
   stack.start = pcb[i].stack;
