@@ -30,11 +30,11 @@ _RegSet* schedule(_RegSet *prev) {
     current->tf = prev;
   }
   current = &pcb[0];
-  const int times = 1000;
-  int curtime = 0;
+  const int times = 100;
+  static int curtime = 0;
   if(current == &pcb[0])
   {
-    curtime ++;
+    curtime += 1;
   }
   else
   {
