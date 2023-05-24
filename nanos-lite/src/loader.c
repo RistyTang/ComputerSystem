@@ -15,7 +15,7 @@ uintptr_t loader(_Protect *as, const char *filename)
   //fs_read(fd,DEFAULT_ENTRY,fs_filesz(fd));
   int totalsize = fs_filesz(fd);
   int pagenum = totalsize / PGSIZE;
-  if(totalsize % PGSIZE)
+  if(totalsize % PGSIZE != 0)
   {
     pagenum += 1;
   }
