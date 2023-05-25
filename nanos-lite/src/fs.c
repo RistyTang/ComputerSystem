@@ -115,6 +115,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
   case FD_EVENTS:
     return events_read(buf,len);
   case FD_DISPINFO:
+    Log("read dispinfo");
     dispinfo_read(buf,file_table[fd].open_offset,n);
     break;
   default:
