@@ -24,7 +24,24 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
-_RegSet* schedule(_RegSet *prev) {
+int current_game = 0;
+void switch_current_game()
+{
+  current_game = 2 - current_game;
+  if(current_game == 0)
+  {
+    Log("current game is xianjian");
+  }
+  else
+  {
+    Log("current game is video");
+  }
+  
+}
+
+_RegSet* schedule(_RegSet *prev) 
+{
+  /*
   if(current != NULL)
   {
     current->tf = prev;
@@ -45,10 +62,34 @@ _RegSet* schedule(_RegSet *prev) {
     current = &pcb[1];
     curtime = 0;
   }
-  
-
   //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   _switch(&current->as);
   return current->tf;
   //return NULL;
+  */
+  if(current != NULL)
+  {
+    current->tf = prev;
+  }
+  else
+  {
+    current = &pcb[current_game];
+  }
+  const int times = 100;
+  static int curtime = 0;
+  if(current == &pcb[current_game])
+  {
+    curtime += 1;
+  }
+  else
+  {
+    current = &pcb[current_game];
+  }
+  if(curtime == times)
+  {
+    current = &pcb[1];
+    curtime = 0;
+  }
+  _switch(&current->as);
+  return current->tf;
 }
