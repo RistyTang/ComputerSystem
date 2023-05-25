@@ -142,6 +142,7 @@ static void get_display_info() {
     }
   }
   fclose(dispinfo);
+  printf("scree_w is %d , screen_h is %d\n",screen_w,screen_h);
   assert(screen_w > 0 && screen_h > 0);
 }
 
