@@ -136,10 +136,6 @@ static void get_display_info() {
     sscanf(delim + 1, "%s", value);
     if (strcmp(key, "WIDTH") == 0) sscanf(value, "%d", &screen_w);
     if (strcmp(key, "HEIGHT") == 0) sscanf(value, "%d", &screen_h);
-    if (strcmp(key, "HEIGHT") == 0 || strcmp(key,"height") == 0)
-    {
-      sscanf(value, "%d", &screen_h);
-    }
   }
   fclose(dispinfo);
   printf("scree_w is %d , screen_h is %d\n",screen_w,screen_h);
