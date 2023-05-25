@@ -75,7 +75,7 @@ _RegSet* schedule(_RegSet *prev)
   {
     current = &pcb[current_game];
   }
-  const int times = 100;
+  const int times = 1000;
   static int curtime = 0;
   if(current == &pcb[current_game])
   {
