@@ -21,7 +21,7 @@ uintptr_t loader(_Protect *as, const char *filename)
   }
   void *pa = NULL;
   void *va = DEFAULT_ENTRY;
-  //Log("pagenum is %d",pagenum);
+  Log("pagenum is %d",pagenum);
   for(int i = 0;i<pagenum;i++)
   {
     pa = new_page();
