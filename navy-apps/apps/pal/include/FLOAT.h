@@ -32,6 +32,10 @@ static inline FLOAT int2F(int a) {
   }
 }
 
+FLOAT f2F(float);
+FLOAT F_mul_F(FLOAT, FLOAT);
+FLOAT F_div_F(FLOAT, FLOAT);
+
 static inline FLOAT F_mul_int(FLOAT a, int b) {
   // assert(0);
   // return 0;
@@ -44,9 +48,7 @@ static inline FLOAT F_div_int(FLOAT a, int b) {
   return F_div_F(a,int2F(b));
 }
 
-FLOAT f2F(float);
-FLOAT F_mul_F(FLOAT, FLOAT);
-FLOAT F_div_F(FLOAT, FLOAT);
+
 FLOAT Fabs(FLOAT);
 FLOAT Fsqrt(FLOAT);
 FLOAT Fpow(FLOAT, FLOAT);

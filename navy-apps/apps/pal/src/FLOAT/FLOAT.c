@@ -65,7 +65,7 @@ FLOAT f2F(float a) {
   }
   else
   {
-    result = (f.m | (1 << 23)) >> (e - 7);
+    result = (f.m | (1 << 23)) << (e - 7);
   }
   if(f.signal == 0)
   {
