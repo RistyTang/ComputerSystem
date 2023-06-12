@@ -5,15 +5,16 @@
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
   //assert(0);
-  return (a * b) >> 16;
+  //return (a * b) >> 16;
+  return ((int64_t)a * (int64_t) b) >> 16;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
   //assert(0);
   //return 0;
-  FLOAT result = Fabs(a) / Fabs(b);
   FLOAT m = Fabs(a);
   FLOAT n = Fabs(b);
+  FLOAT result = Fabs(a) / Fabs(b);
   m = m % n;
 
   for(int i = 0;i < 16;i++)

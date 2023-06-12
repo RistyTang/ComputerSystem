@@ -65,3 +65,9 @@ make_EHelper(iret);
 
 //pa4
 make_EHelper(mov_store_cr);
+
+//pa5
+make_EHelper(shrd);
+make_EHelper(shld);
+make_EHelper(mov_r2cr);
+make_EHelper(mov_cr2r);

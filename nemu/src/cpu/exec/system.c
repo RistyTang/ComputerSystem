@@ -34,13 +34,39 @@ make_EHelper(lidt) {
 }
 
 make_EHelper(mov_r2cr) {
-  TODO();
+  //TODO();
+  switch (id_dest->reg)
+  {
+  case 0:
+    cpu.CR0 = id_src->val;
+    break;
+  case 3:
+    cpu.CR3 = id_src->val;
+    break;
+  default:
+    assert(0);
+    break;
+  }
 
   print_asm("movl %%%s,%%cr%d", reg_name(id_src->reg, 4), id_dest->reg);
 }
 
 make_EHelper(mov_cr2r) {
-  TODO();
+  //TODO();
+  switch (id_dest->reg)
+  {
+  case 0:
+    t0 = cpu.CR0;
+    rtl_sr(id_src->reg,4,&t0);
+    break;
+  case 3:
+    t0 = cpu.CR3;
+    rtl_sr(id_src->reg,4,&t0);
+    break;
+  default:
+    assert(0);
+    break;
+  }
 
   print_asm("movl %%cr%d,%%%s", id_src->reg, reg_name(id_dest->reg, 4));
 
