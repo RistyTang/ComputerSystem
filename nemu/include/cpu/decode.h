@@ -118,4 +118,6 @@ make_DHelper(lidt_a);
 make_DHelper(mov_load_cr);
 make_DHelper(mov_store_cr);
 
+//pa5
+make_DHelper(Ib_G2E);
 #endif
